@@ -1,4 +1,4 @@
-📗Semi Project02(Practice)
+# 📗Semi Project02(Practice)
 ## 11.09
 ---
 
@@ -30,8 +30,8 @@ ex ) 글을 지우면 리뷰까지 다 삭제되게 구현하고 싶을 때,
 `url.py`
 ```python```
 
-# 현재 같은 경로에 있는 views파일 참조
-from . import views 
+## 현재 같은 경로에 있는 views파일 참조
+* from . import views 
 
 `views.py`
 ```python
