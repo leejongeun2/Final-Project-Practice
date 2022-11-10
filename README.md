@@ -1,7 +1,5 @@
 ## 📗Semi Project02(Practice)
 
-## 
-
 ---
 
 `프로젝트에 참여하지 않고 , 개인공부 시간을 통해 Django 와 Front-end학습(with 종은, 주현)`
