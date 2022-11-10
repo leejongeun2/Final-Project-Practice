@@ -75,3 +75,80 @@ def index(request):
 `AUTH_USER_MODEL = "accounts.User"`
 
 - User를 나타내는데 사용하는 모델을 accounts 앱의 커스터마이징한 user모델임을 정의해줌
+
+## 11.10
+
+## Model
+
+`ManyTomanyField`
+
+- Source Model이 Target Model에게 어떤 행동을 통해, 새로운 테이블에 값을 추가 할 때 
+
+```py
+# Source Model = Patient1, Target Model = Doctor1
+# ManyToManyField = doctors (Doctor, related_name = 'patients')
+
+patient1.doctors.all()
+# 환자1이 예약한 의사 모두 확인
+
+
+patient1.doctors.add(doctor1)
+# 환자1이 의사1에게 예약
+```
+
+```python
+doctor이 1 = Doctor.objects.get(pk=1)
+
+# 1번 의사 조회하기
+
+doctor1.patients.all()
+# 의사1이 예약한 환자목록 확인
+# related_name = patients 
+# patients = patient_set
+```
+
+```python
+# 기존 Reservation 탐색 후 제거 대신 .remove() 사용
+
+doctor1.patient_set.remove(patient1)
+# 닥터1이 환자1 예약취소
+
+doctor1.patient_set.all()
+# 닥터1의 환자 모두 확인
+# 환자 2번만 조회된다.
+
+patient1.doctors.all()
+# 환자1이 예약한 의사 모두 조회
+# 의사 1을 삭제하여 조회되지 않는다.
+```
+
+```python
+patient2.doctors.remove(doctor1)
+#환자2가 닥터1의 진료 취소
+
+patient2.doctor.all() 
+# 환자 2가 예약한 의사 모두 확인 (닥터1을 취소하여 조회되지 않는다.)
+
+doctor1.patient_set.all()
+# 닥터 1이 예약한 환자 모두 확인( 조회되지 않는다.)
+```
+
+## 정리
+
+- M:N 관계로 맺어진 두 테이블에는 변화가 없음
+
+- Django의 ManyToManyField는 중개 테이블을 자동으로 생성
+
+- Django의 ManyToManyField는 M:N 관계를 가진 모델 어디에 위치해도 상관없음
+
+  - 대신 필드 작성 위치에 따라 참조와 역참조 방향을 주의할 것
+
+- related_name
+
+  - target model이 source model을 참조할 때 사용할 manager name
+
+- symmetrical
+
+  - True : 내가 당신의 친구라면 당신도 내 친구
+
+  - False : 친구 아님, 즉 대칭을 이루지 않는다.
