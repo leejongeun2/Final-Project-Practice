@@ -60,8 +60,6 @@ def index(request):
 
 - 이곳에 지정한 경로에 모든 파일을 모은다.
 
-
-
 ### image
 
 `MEDIA_ROOT = BASE_DIR / 'images'`
