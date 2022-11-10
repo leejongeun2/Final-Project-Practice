@@ -1,7 +1,5 @@
 ## 📗Semi Project02(Practice)
 
-## 
-
 ---
 
 `프로젝트에 참여하지 않고 , 개인공부 시간을 통해 Django 와 Front-end학습(with 종은, 주현)`
@@ -142,6 +140,7 @@ doctor1.patient_set.all()
 - Django의 ManyToManyField는 중개 테이블을 자동으로 생성
 
 - Django의 ManyToManyField는 M:N 관계를 가진 모델 어디에 위치해도 상관없음
+<<<<<<< HEAD
   
   - 대신 필드 작성 위치에 따라 참조와 역참조 방향을 주의할 것
 
@@ -153,4 +152,17 @@ doctor1.patient_set.all()
   
   - True : 내가 당신의 친구라면 당신도 내 친구
   
+=======
+
+  - 대신 필드 작성 위치에 따라 참조와 역참조 방향을 주의할 것
+
+- related_name
+
+  - target model이 source model을 참조할 때 사용할 manager name
+
+- symmetrical
+
+  - True : 내가 당신의 친구라면 당신도 내 친구
+
+>>>>>>> a7a8ae918277adec6d383fc7f7b14e8faa31b1de
   - False : 친구 아님, 즉 대칭을 이루지 않는다.

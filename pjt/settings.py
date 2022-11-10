@@ -11,17 +11,29 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os, json
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+secret_file = os.path.join(BASE_DIR, 'pjt/secrets.json')
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
 
+# SECURITY WARNING: keep the secret key used in production secret!
+def get_secret(setting):
+    """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!@97ce8jqei3n@j376p)ne(7bwy2_z+!-tl806+=7k*$kb!1ss'
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,6 +44,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
+    'reviews',
     'products',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -121,9 +135,9 @@ USE_TZ = True
 
 
 # static
-STATIC_ROOT = os.path.join(BASE_DIR, 'static') # 로고와 같이 고정적으로 삽입하는 정적 이미지, 
-STATIC_URL = '/static/' # 웹 페이지에서 사용할 정적 파일의 최상위 URL 경로
-STATICFILES_DIRS = [BASE_DIR / 'static'] # 이곳에 지정한 경로에 모든 파일을 모은다.
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static') # 로고와 같이 고정적으로 삽입하는 정적 이미지, 오류 발생
+# STATIC_URL = '/static/' # 웹 페이지에서 사용할 정적 파일의 최상위 URL 경로
+# STATICFILES_DIRS = [BASE_DIR / 'static'] # 이곳에 지정한 경로에 모든 파일을 모은다.
 
 
 # image
