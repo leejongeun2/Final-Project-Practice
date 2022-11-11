@@ -167,7 +167,7 @@ doctor1.patient_set.all()
 
 - False : 친구 아님, 즉 대칭을 이루지 않는다.
 
-## Figma를 이용한 구상
+## 👏Figma를 이용한 구상
 
 >  Figma를 이용하여 제작할 홈페이지의 프론트를 구상하였다.
 
@@ -177,14 +177,253 @@ doctor1.patient_set.all()
 
 [![지그재그](https://i.esdrop.com/d/f/teJqrUQey5/y8PLFjj2vB.png)](https://zigzag.kr/)
 
+`ZIGZAG 의 특성`
+
+- 주로 핑크색과 검정색으로 디자인됨
+
+- 역동적인 프론트 디자인
+
+- 굵직굵직하고 감각적인 폰트
+
+
+
+`Project ZUGZOG`
+
+>  지그재그를 근간으로 하여 디자인을 시도하였다.
+
+`nav-bar`
+
+![navbar](https://i.esdrop.com/d/f/teJqrUQey5/muOg1gaXQH.png)
+
+`main page`
+
+![](https://i.esdrop.com/d/f/teJqrUQey5/1SsO26Kuzc.png)
+
+`detail page`
+
+![](C:\Users\이주현\AppData\Roaming\marktext\images\2022-11-11-21-52-07-image.png)
+
+
+
+`Form`
+
+- 현재 로그인,리뷰등록,수정Form 활용 계획
+
+![](https://i.esdrop.com/d/f/teJqrUQey5/YrY7dHjP9z.png)
+
+`Review`, `Profile`
+
+![](https://i.esdrop.com/d/f/teJqrUQey5/cIA2qNFIvs.png)
+
+ `Like`
+
+![](https://i.esdrop.com/d/f/teJqrUQey5/wPyKAuY9bT.png)
+
+- 추후 변동사항이 있으면 추가할 계획
+
+- 디자인 규격을 통일하지 않아 조금 어긋나거나 난잡한 부분이 있다... 수정 계획
+
+- FIGMA는 매우 유용한 툴임에 틀림없다.
+
+- 이후 FIGMA 사용에선 Section 구역 기획을 통한 완벽한 대칭과 간격을 시도해 볼 예정
+
+
+
 ## 11.11
 
-* 패키지로 설치 된 것을 한번에 지우는 명렁어 : pip uninstall -r requirements.txt -y
 
-* 오류 : cannot assign simplelazyobject 
-  사유: 로그인 상태에서 해야 할 일을 비로그인 상태로 진행하기 때문에 생기는 오류이다. 우리가 쓴 request.user는 로그인 전에는 AnonymousUser가 매핑되고 로그인 이후에 User객체가 맵핑된다. 따라서 하고자 하는 일을 수행하기 전에 로그인을 하면 오류가 안 뜬다.로그인이 필요하도록 @login_required를 사용하면 오류가 뜨는 것을 해결할 수 있다.
 
-* 버튼 클릭하여 url로 이동 시, {% url 'app name:url name' %}
+### Keword
 
+`pip uninstall -r requirements.txt -y`
+
+- 패키지로 설치 된 것을 한번에 지우는 명령어
+
+
+
+`오류 : cannot assign simplelazyobject`
+
+- 로그인 상태에서 해야 할 일을 비로그인 상태로 진행하기 때문에 생기는 오류이다.
+
+- 우리가 쓴 request.user는 로그인 전에는 AnonymousUser가 매핑되고 로그인 이후에 User객체가 맵핑된다.
+
+- 따라서 하고자 하는 일을 수행하기 전에 로그인을 하면 오류가 안 뜬다.로그인이 필요하도록 @login_required를 사용하면 오류가 뜨는 것을 해결할 수 있다.
+
+
+`{% url 'app name:url name' %}`
+
+* 버튼 클릭하여 url로 이동 시,
+
+
+
+`BooleanField`
+
+- 참/거짓 모델, False = 구매자, True = 판매자로 하여 역할 부여
+
+
+
+`{% if request.resolver_match.url_name == 'create' %}`
+
+- resolver_match = 어떤 url을 통해서 왔는지 검사하는 인스턴스
+
+- 따라서 create url로 왔는지 여부를 검사
+
+
+
+`{{ product.user }} ? {{ product.user.username }}?`
+
+- user 필드의 모델은 user모델이고, 그 모델에 username이 있어서 username 보여짐
+
+- 둘 다 같은 결과
+
+
+
+`like_users = models.ManyToManyField(settings.AUTH_USER_MODEL,` 
+
+`related_name = 'like_product')`
+
+- 한 상품은 사용자에게 좋아요를 여러개 받을 수 있고,
+
+- 한 사람도 여러 상품에 좋아요를 할 수 있다.
+
+
+
+### views.py
+
+```python
+# accounts/views.py
+def signup(request):
+    if request.method == 'POST': # 요청 받아서 제출 누르면
+        form = CustomUserCreationForm(request.POST) # 커스텀 폼에 요
+#청 받은 것이 담기고 그것을 폼이란 변수에 저장
+        if form.is_valid(): # 유효하다면 
+            form.save() # 저장하고 
+            return redirect('products:index') # url로 이동
+    else:
+        form = CustomUserCreationForm() # post 요청이 아니면
+                            #(제출 버튼을 안누르면) 빈 폼을 보여줌
+
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/signup.html', context) # 유효하지 
+# 않을 때(post일때), 사용자의 인풋을 다 받아서, 검증까지 해서 
+#에러메시지를 저장한 product_form(템플릿 내에서 부트스트랩 폼에 사용)
+    # 해당 페이지 접속일 (글생성 x)때는 else의 product_form이 들어감
+
+
+def login(request):
+    if request.method == 'POST': # 로그인 버튼 누르면
+        form = AuthenticationForm(request, data=request.POST) # request를
+ # 첫번째 인자로 취함, 유효성 검사를 위해 "data=" 을 통해 판별, 유저가 존재하는지 
+# 검증하는 모델폼
+        if form.is_valid(): # 유효하면 
+            auth_login(request, form.get_user()) # auth_login 함수는 
+# 세션에 유저를 기록하는 함수, AuthenticationForm의 인스턴스 메서드, 
+# 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
+            # return redirect(request.GET.get('next') or 'products:index') 
+            # http://localhost:8000/accounts/login/?    next = /products/1/update/
+            if request.GET.get('next'): # next라면
+                return redirect(request.GET.get('next')) # 원래 next 
+                                                        # url로 가고
+            else: # next가 아니라면
+                return redirect('products:index') # 정상 로그인이니까 로그인 후 index로 이동을 하기
+
+    else:
+        form = AuthenticationForm(request) # 로그인 버튼을 누르지 않으면
+
+    context = {
+        'form': form 
+    }
+
+    return render(request, 'accounts/login.html', context) # 유효성 검사에
+# 실패하거나, 로그인 페이지 접속만 한 경우, 담긴 값을 가지고 
+# 다시 로그인 페이지로 이동
+
+
+@login_required
+def logout(request):
+    auth_logout(request) # 요청 유저에 대한 세션 정보를 삭제함, 
+                        # HttpRequest 객체를 인자로 받고 반환 값이 없음
+    return redirect('products:index')
+```
+
+```python
+# products.py
+
+def index(request):
+    
+    products = Product.objects.all() # Product 모델의 객체를 다 가져옴 
+    context = {
+        'products':products,
+    }
+    return render(request, "products/index.html", context) # 템플릿 네임 
+                                # 적어주고, 이쪽으로 context 값을 넘겨줌
+
+
+def create(request):
+    if request.method == "POST":
+        product_form = ProductForm(request.POST, request.FILES) # 사용자가
+                # 요청하여 Productform에 담긴 포스트를 productform 변수에 저장
+
+        if product_form.is_valid():
+            product = product_form.save(commit=False) # 저장하기 전에 잠깐 
+                                            # 멈추기 위해 commit=false사용
+            product.user = request.user # product.user와 요청한 
+                                        # user가 같다를 정의 
+            product.save() # 위에 요청 받은 폼을 저장, 
+          # 값을 만들고 저장하는 용도고 값을 보내줄 것이 없으니까 redirect를 사용
+            return redirect('products:index') # url로 이동시켜줄 뿐
+                    # (app name:url name) 글작성 후 제출하면 index로 이동
+    else: 
+        product_form = ProductForm() # post 요청이 아니면
+                                     # (제출 버튼을 안누르면) 빈 폼을 보여줌
+
+    context = {
+        "product_form": product_form # 유효하지 않을 때, 
+# 사용자의 인풋을 다 받아서, 검증까지 해서 에러메시지를 저장한 
+#product_form(템플릿 내에서 부트스트랩 폼에 사용)
+        # post일 때는 post의 product_form이 여기에 해당 되고, 
+# 해당 페이지 접속일 (글생성 x)때는 else의 product_form이 들어감
+    }
+
+    return render(request, "products/form.html", context) # 제출에 
+                                # 이슈가 있다면 값을 보내며 다시 폼으로 돌아가기
+
+
+def detail(request, product_pk): # 요청 받은 것에 product_pk가 포함됨
+    product = Product.objects.get(id=product_pk) # id가 요청받은 product_pk가 같은 것을 가져옴
+
+    context = {
+        "product":product 
+    }
+
+    return render(request, "products/detail.html", context) # 요청 받은 
+                                      # 것을 가지고, detail 페이지에 값을 전달
+
+
+def update(request, product_pk): # url에 product_pk 받아야하므로 요청 받은 것에 product_pk 가포함됨
+    product = Product.objects.get(id=product_pk) # id가 요청받은 product_pk가 같은 것을 가져옴
+
+    if request.method == "POST": # 업데이트 제출 버튼 눌렀을 때
+        product_form = ProductForm(request.POST, request.FILES, instance=product) # 요청된 포스트와 요청 된 파일, 기존에 모델에 있는 것을 넣어 놓은 것을 요청 된 것으로 바꿈
+
+        if product_form.is_valid(): # 위 폼이 유효하다면
+            product_form.save() # 저장
+
+            return redirect("products:detail", product_pk) # 몇번 상품의 
+                                                # 디테일 페이지에 보내줄껀지? 
+    else:
+        product_form = ProductForm(instance=product) # 기존 모델에 저장 
+                                                    # 되어있는 값을 보여줌
+
+    context = {
+        "product_form": product_form # 유효하지 않을 때는 요청 받은 
+                               # product_form, 제출 안눌렀을 때는 바로위의 폼
+    }
+
+    return render(request, "products/forms.html", context) # 유효하지 
+   # 않을 때나, 제출 안눌렀을 때는 위의 컨텍스트 값을 가져와서 forms.html을 보여줌
+```
 
 
