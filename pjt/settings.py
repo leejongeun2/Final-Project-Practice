@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'accounts',
     'reviews',
     'products',
+    'imagekit',
+    'django_bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,7 +139,9 @@ USE_TZ = True
 # static
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static') # 로고와 같이 고정적으로 삽입하는 정적 이미지, 오류 발생
 STATIC_URL = '/static/' # 웹 페이지에서 사용할 정적 파일의 최상위 URL 경로
-STATICFILES_DIRS = [BASE_DIR / 'static'] # 이곳에 지정한 경로에 모든 파일을 모은다.
+
+# STATICFILES_DIRS = [BASE_DIR / 'static'] # 이곳에 지정한 경로에 모든 파일을 모은다.
+
 
 
 # image

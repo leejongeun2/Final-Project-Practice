@@ -1,1 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
 <p>시작</p>
+{% for product in products %}
+{{ product.user }} <!--{{ product.user.username }}랑 같은 결과인 username이 나옴-->
+{{ product.content }}
+<a href="{% url 'products:detail' product.pk %}">{{ product.name }}</a>
+{{ product.user.pk }} 
+{{ product.user.username }} <!--user 필드의 모델은 user모델이고, 그 모델에 username이 있어서 username 보여짐-->
+
+
+
+{% endfor %}
+
+
+
+
+
+{% endblock %}
+
