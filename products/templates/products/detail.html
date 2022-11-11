@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+{{ product.user }}
+{{ product.name }}
+<a href="{% url 'products:update' product.pk %}" >상품수정</a>
+{% endblock %}

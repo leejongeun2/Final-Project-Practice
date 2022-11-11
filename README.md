@@ -97,8 +97,7 @@ patient1.doctors.add(doctor1)
 ```
 
 ```python
-doctor이 1 = Doctor.objects.get(pk=1)
-
+doctor1 = Doctor.objects.get(pk=1)
 # 1번 의사 조회하기
 
 doctor1.patients.all()
@@ -177,4 +176,15 @@ doctor1.patient_set.all()
   - ZIGZAG 라는 여성 쇼핑몰 사이트를 참고하였다.
 
 [![지그재그](https://i.esdrop.com/d/f/teJqrUQey5/y8PLFjj2vB.png)](https://zigzag.kr/)
+
+## 11.11
+
+* 패키지로 설치 된 것을 한번에 지우는 명렁어 : pip uninstall -r requirements.txt -y
+
+* 오류 : cannot assign simplelazyobject 
+  사유: 로그인 상태에서 해야 할 일을 비로그인 상태로 진행하기 때문에 생기는 오류이다. 우리가 쓴 request.user는 로그인 전에는 AnonymousUser가 매핑되고 로그인 이후에 User객체가 맵핑된다. 따라서 하고자 하는 일을 수행하기 전에 로그인을 하면 오류가 안 뜬다.로그인이 필요하도록 @login_required를 사용하면 오류가 뜨는 것을 해결할 수 있다.
+
+* 버튼 클릭하여 url로 이동 시, {% url 'app name:url name' %}
+
+
 
