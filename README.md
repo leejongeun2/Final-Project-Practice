@@ -97,7 +97,7 @@ patient1.doctors.add(doctor1)
 ```
 
 ```python
-doctor이 1 = Doctor.objects.get(pk=1)
+doctor1 = Doctor.objects.get(pk=1)
 
 # 1번 의사 조회하기
 
@@ -165,8 +165,6 @@ doctor1.patient_set.all()
   - True : 내가 당신의 친구라면 당신도 내 친구
 
 - False : 친구 아님, 즉 대칭을 이루지 않는다.
-
-
 
 ## Figma를 이용한 구상
 
