@@ -85,7 +85,7 @@ def index(request):
 - Source Model이 Target Model에게 어떤 행동을 통해, 새로운 테이블에 값을 추가 할 때 
 
 ```py
-# Source Model = Patient, Target Model = Doctor
+# Source Model = Patient1, Target Model = Doctor1
 # ManyToManyField = doctors (Doctor, related_name = 'patients')
 
 patient1.doctors.all()
@@ -94,13 +94,6 @@ patient1.doctors.all()
 
 patient1.doctors.add(doctor1)
 # 환자1이 의사1에게 예약
-
-
-# doctor1이 patient2을 예약
-doctor1.patient_set.add(patient2)
-# doctor1이 patient2을 예약(역참조)
-# related_name = patients 
-# patients = patient_set ⭐️
 ```
 
 ```python
@@ -110,9 +103,9 @@ doctor1 = Doctor.objects.get(pk=1)
 # 1번 의사 조회하기
 
 doctor1.patients.all()
-# 의사1이 예약한 환자목록 확인 => 역참조
+# 의사1이 예약한 환자목록 확인
 # related_name = patients 
-# patients = patient_set ⭐️
+# patients = patient_set
 ```
 
 ```python
@@ -192,8 +185,6 @@ doctor1.patient_set.all()
 
 - 굵직굵직하고 감각적인 폰트
 
-
-
 `Project ZUGZOG`
 
 >  지그재그를 근간으로 하여 디자인을 시도하였다.
@@ -209,8 +200,6 @@ doctor1.patient_set.all()
 `detail page`
 
 ![](C:\Users\이주현\AppData\Roaming\marktext\images\2022-11-11-21-52-07-image.png)
-
-
 
 `Form`
 
@@ -234,19 +223,13 @@ doctor1.patient_set.all()
 
 - 이후 FIGMA 사용에선 Section 구역 기획을 통한 완벽한 대칭과 간격을 시도해 볼 예정
 
-
-
 ## 11.11
 
-
-
-### Keword
+### Keyword
 
 `pip uninstall -r requirements.txt -y`
 
 - 패키지로 설치 된 것을 한번에 지우는 명령어
-
-
 
 `오류 : cannot assign simplelazyobject`
 
@@ -256,18 +239,13 @@ doctor1.patient_set.all()
 
 - 따라서 하고자 하는 일을 수행하기 전에 로그인을 하면 오류가 안 뜬다.로그인이 필요하도록 @login_required를 사용하면 오류가 뜨는 것을 해결할 수 있다.
 
-
 `{% url 'app name:url name' %}`
 
 * 버튼 클릭하여 url로 이동 시,
 
-
-
 `BooleanField`
 
 - 참/거짓 모델, False = 구매자, True = 판매자로 하여 역할 부여
-
-
 
 `{% if request.resolver_match.url_name == 'create' %}`
 
@@ -275,15 +253,11 @@ doctor1.patient_set.all()
 
 - 따라서 create url로 왔는지 여부를 검사
 
-
-
 `{{ product.user }} ? {{ product.user.username }}?`
 
 - user 필드의 모델은 user모델이고, 그 모델에 username이 있어서 username 보여짐
 
 - 둘 다 같은 결과
-
-
 
 `like_users = models.ManyToManyField(settings.AUTH_USER_MODEL,` 
 
@@ -292,8 +266,6 @@ doctor1.patient_set.all()
 - 한 상품은 사용자에게 좋아요를 여러개 받을 수 있고,
 
 - 한 사람도 여러 상품에 좋아요를 할 수 있다.
-
-
 
 ### views.py
 
@@ -359,7 +331,7 @@ def logout(request):
 # products.py
 
 def index(request):
-    
+
     products = Product.objects.all() # Product 모델의 객체를 다 가져옴 
     context = {
         'products':products,
@@ -434,5 +406,90 @@ def update(request, product_pk): # url에 product_pk 받아야하므로 요청 �
 ```
 
 ## 11.13
-* render 와 redirect 구분
-두 함수를 헷갈려 혼동하는 경우가 많습니다. 특히 장고가 익숙하지 않을 때는 둘다 return 뒤에 위치하여 함수를 종료할 시 사용되니 그럴만 합니다. 생각 외로 둘의 차이는 명확합니다. render 는 템플릿을 불러오고, redirect 는 URL로 이동합니다. URL 로 이동한다는 건 그 URL 에 맞는 views 가 다시 실행될테고 여기서 render 를 할지 다시 redirect 할지 결정할 것 입니다. 이 점에 유의해서 사용하신다면 상황에 맞게 사용하실 수 있을 겁니다.
+
+### Keyword
+
+`return 과 redirect 구분`
+
+- render 는 템플릿을 불러오고
+
+- redirect 는 URL로 이동
+
+- URL 로 이동한다는 건 그 URL 에 맞는 views 가 다시 실행될테고 여기서 render 를 할지 다시 redirect 할지 결정
+
+`@login_required`
+
+- @안하면 접속이 가능하게 됨, 그러므로 @로 로그인화면이 보여지도록 해야함
+
+`{% if request.user.is_authenticated %}`
+
+- request.user는 뒤에나오는 것을 요청하는 사람
+
+`request.user.id`
+
+- 판매자가 되려는 식별할 수 있는 번호 id가 있어야 되기 때문에 pk 값을 불러 와 준다
+
+`역참조에서...`
+
+- _set 은 related_name 으로 대체 가능하다
+
+- set은 1: N 관계에서 , related_name은 N:M 관계에서 주로 쓰인다.
+
+- source Model, Target Model 을 잘 구분하여 사용하여야 한다
+
+```python
+# doctor1이 patient2을 예약
+doctor1.patient_set.add(patient2)
+# doctor1이 patient2을 예약(역참조)
+# related_name = patients 
+# patients = patient_set ⭐️
+```
+
+```python
+# products/views.py
+
+jjim = get_user_model().objects.get(id=user_pk).jjim_product.all()
+
+# related_name = jjim_product 라고 모델에서 이미 정의
+# abstractuser에서 지정한 User값을 사용하기 위해 get_user_model() 사용
+```
+
+### views.py
+
+```python
+# accounts.py
+@login_required
+def register_seller(request, user_pk): # 몇번 사용자가 true가 될것인지 알아야 하니까 user_pk값을 넣어줌
+    user = get_user_model().objects.get(id=user_pk) # id가 요청 받은 user_pk인 것을 가져옴
+    user.is_seller = True       # seller = True, customer = False
+    user.save()                 
+
+    return redirect('products:index')   
+```
+
+```python
+# products.py
+
+
+def add_jjim(request, product_pk): # product_pk값을 불러와야 되는 이유는 해당 상품을 장바구니에 넣는 것이니까 
+    product = Product.objects.get(id=product_pk) # 특정 상품 가져오고
+
+    if request.user in product.jjim.all(): # 상품에 찜이 되어있는 모든 것 중 요청유저가 있다면
+        product.jjim.remove(request.user) # 상품이 요청유저의 찜을 지움
+    else: # 누른적이 없는 경우, 
+        product.jjim.add(request.user) # 상품이 요청유저에게 찜을 받는다. 
+
+    return redirect('products:detail', product_pk) # detail로 보낼 때는 상품에 대한 
+                                        # pk가 필요하니까 product_pk를 써줌
+
+
+def show_jjim(request, user_pk):
+    jjim = get_user_model().objects.get(id=user_pk)# 특정 유저 데이터를 가지고 오고 
+    jjim1 = jjim.jjim_product.all() # 모델.related_name.method()
+    # 특정 유저가(user_pk)가 찜한 상품 목록 모두 확인
+    context = {
+        'jjim': jjim1
+    }
+
+    return render(request, 'products/jjim.html', context) # 값을 던져준 html을 보여줌
+```
