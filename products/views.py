@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Product
 from .forms import ProductForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
 def index(request):
     products = Product.objects.all() # Product 모델의 객체를 다 가져옴 
@@ -28,7 +29,7 @@ def create(request):
         # post일 때는 post의 product_form이 여기에 해당 되고, 해당 페이지 접속일 (글생성 x)때는 else의 product_form이 들어감
     }
 
-    return render(request, "products/form.html", context) # 제출에 이슈가 있다면 값을 보내며 다시 폼으로 돌아가기
+    return render(request, "products/forms.html", context) # 제출에 이슈가 있다면 값을 보내며 다시 폼으로 돌아가기
 
 
 def detail(request, product_pk): # 요청 받은 것에 product_pk가 포함됨
@@ -59,3 +60,40 @@ def update(request, product_pk): # url에 product_pk 받아야하므로 요청 �
     }
 
     return render(request, "products/forms.html", context) # 유효하지 않을 때나, 제출 안눌렀을 때는 위의 컨텍스트 값을 가져와서 forms.html을 보여줌
+
+
+def delete(request, product_pk):
+    product = Product.objects.get(id=product_pk)
+    product.delete()
+
+    return redirect("products:index")
+
+
+def add_jjim(request, product_pk): # product_pk값을 불러와야 되는 이유는 해당 상품을 장바구니에 넣는 것이니까 
+    product = Product.objects.get(id=product_pk) # 특정 상품 가져오고
+
+    if request.user in product.jjim.all(): # 상품에 찜이 되어있는 모든 것 중 요청유저가 있다면
+        product.jjim.remove(request.user) # 상품이 요청유저의 찜을 지움
+    else: # 누른적이 없는 경우, 
+        product.jjim.add(request.user) # 상품이 요청유저에게 찜을 받는다. 
+                                     
+    return redirect('products:detail', product_pk) # detail로 보낼 때는 상품에 대한 pk가 필요하니까 product_pk를 써줌
+
+
+def show_jjim(request, user_pk):
+    jjim = get_user_model().objects.get(id=user_pk)# 특정 유저 데이터를 가지고 오고 
+    jjim1 = jjim.jjim_product.all() # 모델.related_name.method()
+    # 특정 유저가(user_pk)가 찜한 상품 목록 모두 확인
+    context = {
+        'jjim': jjim1
+    }
+
+    return render(request, 'products/jjim.html', context) # 값을 던져준 html을 보여줌
+
+
+    
+
+
+
+
+    

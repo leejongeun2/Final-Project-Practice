@@ -85,7 +85,7 @@ def index(request):
 - Source Model이 Target Model에게 어떤 행동을 통해, 새로운 테이블에 값을 추가 할 때 
 
 ```py
-# Source Model = Patient1, Target Model = Doctor1
+# Source Model = Patient, Target Model = Doctor
 # ManyToManyField = doctors (Doctor, related_name = 'patients')
 
 patient1.doctors.all()
@@ -94,6 +94,13 @@ patient1.doctors.all()
 
 patient1.doctors.add(doctor1)
 # 환자1이 의사1에게 예약
+
+
+# doctor1이 patient2을 예약
+doctor1.patient_set.add(patient2)
+# doctor1이 patient2을 예약(역참조)
+# related_name = patients 
+# patients = patient_set ⭐️
 ```
 
 ```python
@@ -103,9 +110,9 @@ doctor1 = Doctor.objects.get(pk=1)
 # 1번 의사 조회하기
 
 doctor1.patients.all()
-# 의사1이 예약한 환자목록 확인
+# 의사1이 예약한 환자목록 확인 => 역참조
 # related_name = patients 
-# patients = patient_set
+# patients = patient_set ⭐️
 ```
 
 ```python
@@ -426,4 +433,6 @@ def update(request, product_pk): # url에 product_pk 받아야하므로 요청 �
    # 않을 때나, 제출 안눌렀을 때는 위의 컨텍스트 값을 가져와서 forms.html을 보여줌
 ```
 
-
+## 11.13
+* render 와 redirect 구분
+두 함수를 헷갈려 혼동하는 경우가 많습니다. 특히 장고가 익숙하지 않을 때는 둘다 return 뒤에 위치하여 함수를 종료할 시 사용되니 그럴만 합니다. 생각 외로 둘의 차이는 명확합니다. render 는 템플릿을 불러오고, redirect 는 URL로 이동합니다. URL 로 이동한다는 건 그 URL 에 맞는 views 가 다시 실행될테고 여기서 render 를 할지 다시 redirect 할지 결정할 것 입니다. 이 점에 유의해서 사용하신다면 상황에 맞게 사용하실 수 있을 겁니다.

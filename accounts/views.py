@@ -3,6 +3,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 def signup(request):
@@ -48,4 +49,14 @@ def logout(request):
     auth_logout(request) # 요청 유저에 대한 세션 정보를 삭제함, HttpRequest 객체를 인자로 받고 반환 값이 없음
     return redirect('products:index')
 
+@login_required # @안하면 접속이 가능하게 됨, 그러므로 @로 로그인화면이 보여지도록 해야함
+def profile(request):
+     return render(request, 'accounts/profile.html') # redirect 사용 시, url의 view가 실행되기 떄문에 render을 써야함(Readme참고)
 
+@login_required
+def register_seller(request, user_pk): # 몇번 사용자가 true가 될것인지 알아야 하니까 user_pk값을 넣어줌
+    user = get_user_model().objects.get(id=user_pk) # id가 요청 받은 user_pk인 것을 가져옴
+    user.is_seller = True       # seller = True, customer = False
+    user.save()                 
+
+    return redirect('products:index')       
