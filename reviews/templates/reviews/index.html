@@ -9,5 +9,6 @@
 
   {% for review in reviews %}
     {{ review.content }}
+    <a href="{% url 'reviews:update' review.pk %}">수정하기</a>
   {% endfor %}
 {% endblock content %}
