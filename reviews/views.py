@@ -27,10 +27,10 @@ def create(request, product_pk): # url에 product_pk가 있어서 넣어줘야�
         if form.is_valid(): # post 이고 유효하면
             review = form.save(commit=False) # 저장을 잠깐 멈추고
             review.user = request.user # 리뷰 작성자를 요청한 사람으로 정의 => 리뷰 user_id에 저장되어야 할 작성자 정보가 누락되었기 때문
+            review.save() # 리뷰 저장
+            product.review.add(review) # 특정 상품의 리뷰를 작성한다. 
            
-            if request.user not in product.review.all(): # 정참조, 상품에 쓰인 전체 리뷰 중 요청자가 포함되어있지 않다면
-                 review.save() # 리뷰 저장
-                 product.review.add(review) # 특정 상품의 리뷰를 작성한다. 
+               
             # else:
                 # 실패 alert 가 뜨게 만들어야함.
 
