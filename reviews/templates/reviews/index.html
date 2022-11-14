@@ -4,10 +4,17 @@
 {% block content %}
   <h1>reviews</h1>
 
-  <a href="{% url 'reviews:create' product_pk %}">작성하기</a>
+  <a href="{% url 'reviews:create' product.pk %}">작성하기</a>
   <!--경로를 가져오기 위해 product_pk-->
+
+
 
   {% for review in reviews %}
     {{ review.content }}
+    <a href="{% url 'reviews:update' review.pk %}">수정하기</a>
+    <a href="{% url 'reviews:delete' review.pk %}">삭제하기</a>
   {% endfor %}
 {% endblock content %}
+
+
+
