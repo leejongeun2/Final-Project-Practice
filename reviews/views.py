@@ -49,6 +49,7 @@ def update(request, review_pk): # url에 있는 review_pk를 인자로 가져옴
     review = Review.objects.get(id=review_pk) # id가 가져온 review_pk에 해당 하는 것을 review로 할당
     product_pk = review.review_product.get().id
 
+
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES, instance=review)
 
@@ -76,3 +77,5 @@ def delete(request, review_pk):
     review.delete()
 
     return redirect('reviews:index', product_pk)
+
+            
