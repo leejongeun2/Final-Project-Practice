@@ -7,12 +7,12 @@ from .models import Review
 def index(request, product_pk):
     product = Product.objects.get(id=product_pk) # 특정상품 가져오고
     reviews = product.review.all() # 정참조이며, 특정 상품에 쓰인 리뷰 모두 확인
-    form = ReviewForm(instance=product) # 특정 상품 모델 정보(리뷰도 포함)를 리뷰 폼에 넣어줌
+    # form = ReviewForm(instance=product) # 리뷰 폼을 인덱스에서 사용할 때 쓰는 것, 리뷰 폼과 상품 폼에서 겹치는 content가 들어감
 
     context = {
         'reviews': reviews,
-        'product_pk': product_pk,
-        'form' : form,
+        'product': product,
+        # 'form' : form,
     }
     
     return render(request, 'reviews/index.html', context)
@@ -45,24 +45,37 @@ def create(request, product_pk): # url에 product_pk가 있어서 넣어줘야�
 
     return render(request, 'reviews/forms.html', context)
 
-def update(request, review_pk):
-    review = Review.objects.get(id=review_pk)
+def update(request, review_pk): # url에 있는 review_pk를 인자로 가져옴
+    review = Review.objects.get(id=review_pk) # id가 가져온 review_pk에 해당 하는 것을 review로 할당
+    product_pk = review.review_product.get().id
+
 
     if request.method == 'POST':
         form = ReviewForm(request.POST, request.FILES, instance=review)
 
         if form.is_valid():
-            review = form.save(commit=False)
-            review.user = request.user
+            review = form.save(commit=False) # save잠깐 멈추고
+            review.user = request.user # 요청자가 리뷰 유저라고 지정해줌
             review.save()
-                
-            return redirect('reviews:index', review.review_product.get().pk)
+           
+
+            return redirect('reviews:index', product_pk) # 역참조, 특정리뷰가 작성 된 상품 id를 가져온다.== product_pk
 
     else:
-        form = ReviewForm(instance=review)
+        form = ReviewForm(instance=review) # 수정 제출 버튼 안눌렀다면 기존 작성되어 모델에 저장 된 리뷰가 보여짐
 
     context = {
-        'form': form
+        'form': form # 1.유효하지 않을떄, 2.수정버튼 안눌렀을 때
     }
 
-    return render(request, 'reviews/forms.html', context)
+    return render(request, 'reviews/forms.html', context) 
+
+
+def delete(request, review_pk):
+    review = Review.objects.get(id=review_pk)
+    product_pk = review.review_product.get().id
+    review.delete()
+
+    return redirect('reviews:index', product_pk)
+
+            
