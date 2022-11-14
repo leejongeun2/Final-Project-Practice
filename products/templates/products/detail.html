@@ -5,4 +5,5 @@
 <a href="{% url 'products:update' product.pk %}" >상품수정</a>
 <a href="{% url 'products:delete' product.pk %}" >상품삭제</a>
 <a href="{% url 'products:add_jjim' product.pk %}" >장바구니</a>
+<a href="{% url 'reviews:index' product.pk %}">리뷰</a>
 {% endblock %}

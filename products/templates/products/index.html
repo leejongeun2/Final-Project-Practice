@@ -7,7 +7,7 @@
 {% for product in products %}
 {{ product.user }} <!--{{ product.user.username }}랑 같은 결과인 username이 나옴-->
 {{ product.content }}
-<a href="{% url 'products:detail' product.pk %}">{{ product.name }}</a>
+<a href="{% url 'products:detail' product.pk %}">{{ product.name }}</a><!--경로가 아닌 값을 가져오기 위한 것-->
 {{ product.user.pk }} 
 {{ product.user.username }} <!--user 필드의 모델은 user모델이고, 그 모델에 username이 있어서 username 보여짐-->
 

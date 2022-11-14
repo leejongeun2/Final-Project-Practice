@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<h1>reviews</h1>
+
+<a href="{% url 'reviews:create' product_pk %}" >작성하기</a><!--경로를 가져오기 위해 product_pk-->
+{% endblock content %}

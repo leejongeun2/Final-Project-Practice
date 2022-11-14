@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+{% comment %} {% if request.resolver_match.url_name == 'create' %} {% endcomment %}
+<div class="container-fluid py-5 rounded" style="background-color: #E9EEF5;">
+  <div class="col-md-6 m-auto text-center">
+      <h1 class="h1">리뷰 작성</h1>
+  </div>
+</div>
+{% comment %} {% else %} {% endcomment %}
+<div class="container-fluid py-5 rounded" style="background-color: #E9EEF5;">
+  <div class="col-md-6 m-auto text-center">
+      <h1 class="h1">리뷰 수정</h1>
+  </div>
+</div>
+{% comment %} {% endif %} {% endcomment %}
+<div class="d-flex justify-content-center align-items-center m-auto mt-5">
+  <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% bootstrap_button content="ok" button_type="submit" button_class="btn-danger" %}
+  </form>
+</div>
+
+{% endblock content %}
