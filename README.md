@@ -558,4 +558,16 @@ def show_jjim(request, user_pk):
 * 1:N 관계에서는 1이 N을 참조하는 상황
     * 외래 키를 가지지 않은 1이 외래 키를 가진 N을 참조
 * `article.comment_set.all()` : 1번 게시글에 작성된 모든 댓글 조회하기 (역참조)
+    * `1번 게시글에 작성된 모든 댓글 출력하기`
+    ```python
+    comments = article.comment_set.all()
+    for comment in comments:
+    print(comment.content)
+    ```
+
+### 프로필 사진 기능 
+1. accounts > urls.py 내 프로필 사진을 보여줄 Url지정
+`path('profile/', views.profile, name='profile'),`
+2. 해당 url의 views > profile함수에서 profile을 보여주기 위한 객체 생성 및 해당 객체 context로 넣어줌
+3. 보여줄 템플릿 지정 => `accounts/profile.html`
 
