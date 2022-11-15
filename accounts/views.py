@@ -4,13 +4,18 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from .models import Profile
 
 # Create your views here.
-def signup(request):
+def signup(request): # 회원가입할 때 프로필을 생성하는 이유는 회원가입 이후 생성 시, 여러번 프로필을 생성할 수 있기 때문에 또 다른 제약을 줘야함(회원가입 시 프로필을 생성하면 딱 한번 만들 수 있기 때문)
     if request.method == 'POST': # 요청 받아서 제출 누르면
         form = CustomUserCreationForm(request.POST) # 커스텀 폼에 요청 받은 것이 담기고 그것을 폼이란 변수에 저장
+        profile_image = Profile() # 프로필 생성
         if form.is_valid(): # 유효하다면 
-            form.save() # 저장하고 
+            user = form.save() # 커스텀 폼에 요청 받은 것을 저장하고 그것을 user에 저장
+            profile_image.user = user # 프로필 이미지의 유저가 외래키이기 때문에 user 값이 비어있음, 그것을 생성 된 유저(폼 저장 된 것)으로 지정해줌
+            profile_image.save() # 프로필 이미지 저장
+            auth_login(request, user) # 로그인함수는 login(request, user) 회원가입과 동시에 로그인됨
             return redirect('products:index') # url로 이동
     else:
         form = CustomUserCreationForm() # post 요청이 아니면(제출 버튼을 안누르면) 빈 폼을 보여줌
@@ -22,11 +27,17 @@ def signup(request):
     # 해당 페이지 접속일 (글생성 x)때는 else의 product_form이 들어감
 
 
+def profile_update(request):
+    user_ = get_user_model().objects.get(pk=request.user.pk) # 로그인한 유저 정보 불러오기
+    current_user = user_.profile
+
+
+
 def login(request):
     if request.method == 'POST': # 로그인 버튼 누르면
         form = AuthenticationForm(request, data=request.POST) # request를 첫번째 인자로 취함, 유효성 검사를 위해 "data=" 을 통해 판별, 유저가 존재하는지 검증하는 모델폼
         if form.is_valid(): # 유효하면 
-            auth_login(request, form.get_user()) # auth_login 함수는 세션에 유저를 기록하는 함수, AuthenticationForm의 인스턴스 메서드, 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
+            auth_login(request, form.get_user()) # auth_login 함수는 세션에 유저를 기록하는 함수, get_user()는 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환하며, AuthenticationForm의 인스턴스 메서드, 유효성 검사를 통과했을 경우 로그인 한 사용자 객체를 반환
             # return redirect(request.GET.get('next') or 'products:index') 
             # http://localhost:8000/accounts/login/?    next = /products/1/update/
             if request.GET.get('next'): # next라면
