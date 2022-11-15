@@ -10,7 +10,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('email', 'username', 'password1', 'password2',)
     
 
-class ProfileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm): # 사용자로부터 프로필 데이터 입력을 받기 위한 폼 작성
     class Meta:
         model = Profile
         fields = ["image"]
