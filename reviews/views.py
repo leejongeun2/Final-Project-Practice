@@ -7,7 +7,7 @@ from .models import Review
 def index(request, product_pk):
     product = Product.objects.get(id=product_pk) # 특정상품 가져오고
     reviews = product.review.all() # 정참조이며, 특정 상품에 쓰인 리뷰 모두 확인
-    # form = ReviewForm(instance=product) # 리뷰 폼을 인덱스에서 사용할 때 쓰는 것, 리뷰 폼과 상품 폼에서 겹치는 content가 들어감
+    # form = ReviewForm(instance=product) # 리뷰 폼을 인덱스에서 사용할 때 쓰는 것, 인스턴스에 product를 넣은 경우, 리뷰 폼과 상품 폼에서 겹치는 content가 들어가져있는 것으로 보여짐
 
     context = {
         'reviews': reviews,
@@ -29,10 +29,6 @@ def create(request, product_pk): # url에 product_pk가 있어서 넣어줘야�
             review.user = request.user # 리뷰 작성자를 요청한 사람으로 정의 => 리뷰 user_id에 저장되어야 할 작성자 정보가 누락되었기 때문
             review.save() # 리뷰 저장
             product.review.add(review) # 특정 상품의 리뷰를 작성한다. 
-           
-               
-            # else:
-                # 실패 alert 가 뜨게 만들어야함.
 
             return redirect('reviews:index', product_pk)
 

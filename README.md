@@ -493,3 +493,69 @@ def show_jjim(request, user_pk):
 
     return render(request, 'products/jjim.html', context) # 값을 던져준 html을 보여줌
 ```
+
+## 11.14
+### Q. review index template의 작성하기 버튼에서 사용하는 product_pk와 product.pk 차이는? 
+> 버튼으로 이동할 때는 create url에서 받은 pk인자를 옆에 써줘야 하는데, 써주기 위해서는 index template에서 사용할 수 있도록 view의 index함수에서 context로 넘겨줘야한다. 
+> 여기서 index함수 인자로 들어온 product_pk를 context로 넣어 바로 넘겨주는지 또는 product로 정의해준 데이터를 context로 넣어주는지의 차이다. 
+> 후자의 경우, 객체(데이터)를 넘겨주는 것이며, template에서는 product의 pk값이 필요하기 때문에 product.pk로 버튼의 url에 기재해준다. 
+
+### Q. review앱 view.py에서 create함수 내 아래 코드의 의미는? 
+    ```python
+                if request.user not in product.review.all(): # 특정상품에 작성 된 리뷰 모두 확인
+                review.save()
+                product.review.add(review)
+            # else:
+                # 실패 alert 가 뜨게 만들어야함.
+    ```
+> 리뷰와 상품은 M:N 관계로써, 한 상품은 여러 리뷰가 있을 수 있고, 한 리뷰는 여러 상품에 있을 수 있다.
+> 다만 리뷰 작성(create)경우, 특정 리뷰가 쓰여진 상품이 여러개 존재하는 것이 불가능하며 기능 구현도 안되어있음, 즉 실제로는 1:N 기능
+> 그렇기 때문에 별도 제약 조건을 코드로 구현하지 않아도 되어 위 코드를 제거해도 되지만 해당 기능이 구현이 되었다는 가정하에 그 기능을 사용하지 못하도록 제한을 하고 알럿을 뜨게 하기 위해 위 코드를 기재함
+> 그러므로 위 코드의 의미는 <<특정상품에 쓰인 전체 리뷰 중 요청자가 존재하지 않을때 저장함을 의미>> 즉, 중복 금지  
+> 특정 리뷰가 여러 상품에 존재하는 기능이 구현이 되었더라면 특정상품의 리뷰들은 작성자 중복이 없어야함⭐️ => 요청자가 한명인 특정리뷰가 있는 것이 아니니까! 
+> 특정상품의 리뷰들 중 작성자가 중복이 된다면 알럿이 뜬다는 코드 
+
+### Q. review앱 view.py에서 update함수 내 아래 코드의 의미는?
+`product_pk = review.review_product.get().id`
+* 리뷰 모델에서 상품 모델을 역참조하며, 특정리뷰가 작성 된 상품 한개의 id를 가져온다. 
+* 괄호 경우 특정한 조건을 넣을 때도 있지만 특정한 조건을 넣지 않을때, 넣을 수 없을때 빈괄호를 사용하며 그 경우에도 `.id` 붙인다면 id를 가져올수 있다. 
+* .get().id => id 가져옴
+* .get(id=2).name => 2번의 이름 가져옴
+* redirect하는 경우, 해당 url에 pk값이 있다면 return redirect 안에 url과 해당하는 pk값을 같이 적어줘야 됨
+
+
+## 11.15
+### front_end
+* 부트스트랩 클래스로 컬러가 입혀졌다면, 같은 태그 안에 style로 컬러를 입히려해도 입혀지지 않음 => 부트스트랩 클래스의 컬러를 빼야함
+* 폰트 넣는 방법: 
+1. https://fonts.google.com/ 접속
+2. korean 으로 language 선택 
+3. font 선택 후 하단 + 선택
+4. link 3개 head 태그안에 넣고 style태그 안에 CSS rules to specify families 를 태그 또는 클래스 명을 만들어서 넣음
+
+* imagekit
+    * <img> 태그에서 직접 사이즈를 조정할 수도 있지만 (width 와 height), 업로드 될 때 이미지 자체를 resizing 하는 것을 사용해 볼 것
+    * ProcessedImageField 필드에서 thumnail을 쓸 때는 processors의 thumnail을 쓰고, image를 쓸 때는 resizetofill을 씀
+        * thumnail와 thumnail은 어떤 방식으로 자를지에 대한 구분
+        * resizetofill:  중앙기준으로 자른다. 그냥 크기에 맞게 자른다고 보면된다
+        * thumnail: 내부적기준으로 자동으로 깔끔하게 잘라준다. 
+    * ProcessedImageField: 원본 이미지를 재가공하여 저장
+
+### 1:N 관계
+* N: Comment, 외래키 필드: article, 외래키 모델: Article
+1. 댓글 생성(N) `comment = Comment()`
+2. 게시글 생성(1) `article = Article.objects.create(title='title', content='content')`
+3. 외래 키 데이터 입력 `comment.article = article`
+4. 댓글 저장 `comment.save()`
+
+* 1번 댓글이 작성된 게시물의 pk 조회
+`comment.article.pk`
+
+* 1번 댓글이 작성된 게시물의 content 조회
+`comment.article.content`
+
+### 역참조란?
+* 1:N 관계에서는 1이 N을 참조하는 상황
+    * 외래 키를 가지지 않은 1이 외래 키를 가진 N을 참조
+* `article.comment_set.all()` : 1번 게시글에 작성된 모든 댓글 조회하기 (역참조)
+
