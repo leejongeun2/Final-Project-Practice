@@ -75,14 +75,14 @@ def profile(request):
     }
     return render(request, 'accounts/profile.html', context) # redirect 사용 시, url의 view가 실행되기 떄문에 render을 써야함(Readme참고)
 
-def profile_create(request):
-    user_ = get_user_model().objects.get(pk=request.user.pk)
-    profile_form = ProfileForm(request.POST)
-    if profile_form.is_valid():
-        profile = profile_form.save(commit=False)
-        profile.user = user_
-        profile.save()
-    return redirect('accounts:profile')
+# def profile_create(request):
+#     user_ = get_user_model().objects.get(pk=request.user.pk)
+#     profile_form = ProfileForm(request.POST)
+#     if profile_form.is_valid():
+#         profile = profile_form.save(commit=False)
+#         profile.user = user_
+#         profile.save()
+#     return redirect('accounts:profile')
 
 
 def profile_update(request):

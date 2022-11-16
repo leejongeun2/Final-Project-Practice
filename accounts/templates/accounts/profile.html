@@ -10,11 +10,11 @@
 {% else %} <!--없다면? 아래 더미이미지-->
       <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="" style="width: 100px; height: 100px;">
 {% endif %}
-<form action="#" method="POST">
+{% comment %} <form action="#" method="POST">
     {% csrf_token %}
     {% bootstrap_form profile_create_form %}
     <input type="submit">
-    </form>
+    </form> {% endcomment %}
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form profile_update_form %}
