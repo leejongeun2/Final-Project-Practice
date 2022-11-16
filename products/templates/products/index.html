@@ -11,18 +11,16 @@
           <div>
             <div class="row p-5 px-0">
               <div class="mx-auto col-md-8 col-lg-7 order-lg-last p-0">
-                <img class="img-fluid" src="https://www.prada.com/content/dam/pradanux/pradasphere/2020/special-projects/03/linea_rossa_ss_20/asset/hero_banner_big_DT.jpg" alt="">
+                <img class="img-fluid " src="https://www.prada.com/content/dam/pradanux/pradasphere/2020/special-projects/03/linea_rossa_ss_20/asset/hero_banner_big_DT.jpg" alt="">
               </div>
               <div class="col-lg-5 mb-0 d-flex align-items-center" style="background-color:black;">
                 <div class="text-align-left align-self-center mx-5">
                   <h1 class="h1">
-                    <b>2022 FW
-                    SEASON OFF
-                    SALE</b></h1>
+                    <b>2022 FW SEASON OFF SALE</b>
+                  </h1>
                   <h3 class="h2" style="color: white;">Tiny and Perfect eCommerce Template</h3>
                   <p style="color: white;">
-                    Zay Shop is an eCommerce HTML5 CSS template with latest version of Bootstrap 5 (beta 1). This template is 100% free provided by
-                    website. Image credits go to
+                    Zay Shop is an eCommerce HTML5 CSS template with latest version of Bootstrap 5 (beta 1). This template is 100% free provided by website. Image credits go to
                   </p>
                 </div>
               </div>
@@ -37,7 +35,9 @@
               </div>
               <div class="col-lg-5 mb-0 d-flex align-items-center" style="background-color:black;">
                 <div class="text-align-left mx-5">
-                  <h1 class="h1"><b>Proident occaecat</b></h1>
+                  <h1 class="h1">
+                    <b>Proident occaecat</b>
+                  </h1>
                   <h3 class="h2" style="color: white;">Aliquip ex ea commodo consequat</h3>
                   <p style="color: white;">
                     You are permitted to use this Zay CSS template for your commercial websites. You are
@@ -57,7 +57,9 @@
               </div>
               <div class="col-lg-5 mb-0 d-flex align-items-center" style="background-color:black;">
                 <div class="text-align-left mx-5">
-                  <h1 class="h1"><b>Repr in voluptate</b></h1>
+                  <h1 class="h1">
+                    <b>Repr in voluptate</b>
+                  </h1>
                   <h3 class="h2" style="color: white;">Ullamco laboris nisi ut
                   </h3>
                   <p style="color: white;">
@@ -78,40 +80,88 @@
     </div>
     <!-- End Banner Hero -->
   </div>
-
-
-
   <div class="container text-center">
-    <div>
-      <div class="col-4 banner_text d-flex justify-content-center">
-        <p>WHAT</p>
-      </div>
-
-      <div class="col-4 banner_text d-flex ">
-        <p>THEY</p>
-      </div>
-
-      <div class="col-4 banner_text d-flex ">
-        <p>WANT</p>
-      </div>
-
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 g-6">
-      {% for product in products %}
-          <div class="col px-3 py-3">
-            <div class="h-100 border border-0 hoverbox">
+    <div class="row align-items-start">
+      <div class="col ">
+        {% for product in products %}
+          <div class="col px-3 py-1 ">
+            <div class="h-100 border border-0 hoverbox rounded-4">
               <a href=" {% url 'products:detail' product.id %}">
                 {% if product.image %}
-                  <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+                  {% if product.pk == 1 %}
+                    <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
+                  {% endif %}
                 {% else %}
                   <img src="https://dummyimage.com/640x480/000/454545" class="card-img-top" alt="...">
                 {% endif %}
               </a>
             </div>
           </div>
-      {% endfor %}
-    </div> 
-  </div>
- 
+        {% endfor %}
+      </div>
+      <div class="col d-flex justify-content-center align-items-center banner_text my-5 py-3" style="font-size:100px; color:white;">
+        WHAT
+      </div>
+      <div class="col">
+        {% for product in products %}
+          <div class="col px-3 py-1">
+            <div class="h-100 border border-0 hoverbox rounded-4">
+              <a href=" {% url 'products:detail' product.id %}">
+                {% if product.image %}
+                  {% if product.pk == 2 %}
+                    <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
+                  {% endif %}
+                {% else %}
+                  <img src="https://dummyimage.com/640x480/000/454545" class="card-img-top" alt="...">
+                {% endif %}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
 
-{% endblock content_2 %}
+    <div class="row align-items-center">
+      <div class="col d-flex justify-content-center align-items-center banner_text" style="font-size:100px; color:white;">
+        THEY
+      </div>
+      <div class="col">
+        {% for product in products %}
+          <div class="col px-3 py-1">
+            <div class="h-100 border border-0 hoverbox rounded-4">
+              <a href=" {% url 'products:detail' product.id %}">
+                {% if product.image %}
+                  {% if product.pk == 3 %}
+                    <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
+                  {% endif %}
+                {% else %}
+                  <img src="https://dummyimage.com/640x480/000/454545" class="card-img-top" alt="...">
+                {% endif %}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="col d-flex justify-content-center align-items-center banner_text" style="font-size:100px; color:white;">
+        WANT
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-6">
+      {% for product in products %}
+        <div class="col px-3 py-3">
+          <div class="h-100 border border-0 hoverbox rounded-4">
+            <a href=" {% url 'products:detail' product.id %}">
+              {% if product.image %}
+                {% if product.pk >= 4 %}
+                  <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
+                {% endif %}
+              {% else %}
+                <img src="https://dummyimage.com/640x480/000/454545" class="card-img-top" alt="...">
+              {% endif %}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  {% endblock content_2 %}
