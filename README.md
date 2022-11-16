@@ -580,3 +580,12 @@ def show_jjim(request, user_pk):
 
 `좋아요 아이콘 버튼을 누르면, like url로 이동되고, like url의 view 함수가 실행 되면서 해당 view함수의 redirect page인 detail page로 이동`
 
+### CSS 파일 별도 관리 방법
+* 해당 기능을 사용하려면 settings.py 에 `STATICFILES_DIRS = [BASE_DIR / 'static'] # 이곳에 지정한 경로에 모든 파일을 모은다.` 를 기재해줘야함
+1. 프로젝트 최상단(manage.py 와 같은 경로)에 static 폴더 생성 
+2. static 폴더 내 css 폴더 생성
+3. css 폴더 내 style.css 파일 생성 
+4. base.html에 `<link rel="stylesheet" href="/static/css/style.css">` 기재
+
+
+
