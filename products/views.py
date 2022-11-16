@@ -97,6 +97,17 @@ def delete_jjim(request, product_pk): # 상품에 대한 삭제니까 product_pk
     return redirect('products:show_jjim', request.user.pk) # 찜리스트 url로 보낼 때는 누구의 찜리스트로 가라는지 필요, show_jjim이라는 url이 user_pk 값을 필요로함, request.user.pk또는 request.user.id 필요
     # redirect 할 때, user_pk가 아닌 request.user.pk를 하는 이유는 호출할때 user_pk호출하지 않고 request, prduct_pk를 호출하기 때문에 request를 붙인 request.user.pk를 사용
 
+def like(request, product_pk):
+    product = Product.objects.get(id=product_pk) # 특정 상품 가져오기
+    if request.user in product.like_users.all(): # 특정 상품에 좋아요를 한 모든 유저 안에 요청한 유저가 있다면
+        # 좋아요 삭제하고
+        product.like_users.remove(request.user) # 상품에 요청한 사용자의 좋아요 제거
+    else: # 요청한 유저가 없다면
+        # 좋아요 추가하고 
+        product.like_users.add(request.user) # 상품에 요청한 사용의 좋아요 추가
+    # 상세 페이지로 redirect
+    return redirect('products:detail', product_pk)
+
 
     
 
