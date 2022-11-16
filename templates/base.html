@@ -17,62 +17,46 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color:#FA6EE3;">
+    <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color:#FA6EE3; height: 75px;">
       <div class="container-fluid">
-        <a class="btn_d navbar-brand fs-2" href="{% url 'products:index' %}">ZUGZOG</a>
+        <a class="btn_d navbar-brand fs-1" href="{% url 'products:index' %}">ZUGZOG</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
-          <div class="navbar-nav d-flex align-items-baseline">
+          <div class="navbar-nav d-flex align-items-center">
 
             {% if request.user.is_authenticated %}
               <!--request.user는 뒤에나오는 것을 요청하는 사람-->
               {% if request.user.is_seller %}
-
                 <div class="boot_button d-flex align-items-center ">
-                  <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:30px;">
-
+                  <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
                     <a class="nav-link pt-0 text-light" href="{% url 'products:create' %}">상품 등록</a>
-
                   </button>
-
-                {% endif %}
-                <button type="button" class="btn btn-dark rounded-pill btn_c" style="height:30px;">
-                  <a class="nav-link pt-0 text-light " href="{% url 'accounts:logout' %}" tabindex="-1" aria-disabled="true">로그아웃</a>
-                </button>
-              </div>
-              <div class="icon d-flex ">
-                <a class="nav-link" href="{% url 'products:show_jjim' request.user.id %}">
-                  <i class="bi bi-bag-heart-fill text-dark fs-2 "></i>
-                </a>
-              </div>
+                {% else %}
+                  <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
+                    <a class="nav-link pt-0 text-light" href="{% url 'accounts:register_seller' request.user.id %}">판매자 등록</a>
+                  </button><!--판매자가 되려는 식별할 수 있는 번호 id가 있어야 되기 때문-->
+              {% endif %}
+                  <button type="button" class="btn btn-dark rounded-pill btn_c" style="height:35px;">
+                    <a class="nav-link pt-0 text-light " href="{% url 'accounts:logout' %}" tabindex="-1" aria-disabled="true">로그아웃</a>
+                  </button>
+                </div>
+                <a class="mx-2" href="{% url 'products:show_jjim' request.user.id %}">
+                  <i class="bi bi-bag-heart-fill text-dark fs-2"></i></a>
             {% else %}
-              <a class="nav-link " href="{% url 'accounts:login' %}" tabindex="-1" aria-disabled="true">로그인</a>
-              <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
-
-              <a class="nav-link " href="{% url 'accounts:profile' %}">
-                <i class="bi bi-person-circle text-dark fs-2"></i>
-              </a>
+                <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
+                  <a class="nav-link pt-0 text-light" href="{% url 'accounts:login' %}">로그인</a>
+                </button>
+                <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
+                  <a class="nav-link pt-0 text-light" href="{% url 'accounts:signup' %}">회원가입</a>
+                </button>
             {% endif %}
 
             {% if request.user.is_authenticated %}
-              <a class="nav-link" href="{% url 'accounts:profile' %}">
+              <a class="me-2" href="{% url 'accounts:profile' %}">
                 <i class="bi bi-person-circle text-dark fs-2"></i>
               </a>
-
-              {% if not request.user.is_seller %}
-                <!--request.user는 뒤에나오는 것을 요청하는 사람, 셀러아닌 경우에도 로그인여부를 꼭 표시해야 하고 표시하지 않으면 오류뜸-->
-                <a class="nav-link" href="{% url 'accounts:register_seller' request.user.id %}">판매자등록</a>
-                <!--판매자가 되려는 식별할 수 있는 번호 id가 있어야 되기 때문-->
-
-                <div class="navbar align-self-center d-flex">
-                  <a class="nav-icon position-relative text-decoration-none mx-4" href="{% url 'products:show_jjim' request.user.id %}">
-                    <i class="bi bi-bag-heart-fill text-dark"></i>
-                  </a>
-                </div>
-
-              {% endif %}
             {% endif %}
 
           </div>
