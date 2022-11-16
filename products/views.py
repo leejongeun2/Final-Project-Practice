@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from .models import Product
 from .forms import ProductForm
@@ -102,11 +103,16 @@ def like(request, product_pk):
     if request.user in product.like_users.all(): # 특정 상품에 좋아요를 한 모든 유저 안에 요청한 유저가 있다면
         # 좋아요 삭제하고
         product.like_users.remove(request.user) # 상품에 요청한 사용자의 좋아요 제거
+        is_liked = False
     else: # 요청한 유저가 없다면
         # 좋아요 추가하고 
         product.like_users.add(request.user) # 상품에 요청한 사용의 좋아요 추가
+        is_liked = True
     # 상세 페이지로 redirect
-    return redirect('products:detail', product_pk)
+    context = {
+        'isLiked' : is_liked,
+    }
+    return JsonResponse(context)
 
 
     

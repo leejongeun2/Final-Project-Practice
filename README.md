@@ -571,3 +571,12 @@ def show_jjim(request, user_pk):
 2. 해당 url의 views > profile함수에서 profile을 보여주기 위한 객체 생성 및 해당 객체 context로 넣어줌
 3. 보여줄 템플릿 지정 => `accounts/profile.html`
 
+## 11.16
+
+`like 함수의 진행 메커니즘`
+1. detail page에서 좋아요를 누른다
+2. url에서 정의한 경로상에서 views에서 정의한 함수 작동
+3. return redirect로 detail page 이동
+
+`좋아요 아이콘 버튼을 누르면, like url로 이동되고, like url의 view 함수가 실행 되면서 해당 view함수의 redirect page인 detail page로 이동`
+
