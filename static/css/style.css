@@ -1,0 +1,39 @@
+
+.btn_c {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+.btn_d {
+    font-family: 'Jost', sans-serif;
+}
+
+.img-fluid {
+    height: 700px;
+    width: 1200px;
+}
+
+body {
+    background-color: black;
+} 
+
+.text-success {
+  font-family: 'Jost', sans-serif;
+}
+
+b {
+    color:#FA6EE3;
+}
+
+.hoverbox {
+    
+    transition: all 0.2s linear
+  }
+
+.hoverbox:hover {
+    box-shadow: 0px 0px 30px rgba(102, 101, 101, 0.7), 0px 0px 30px rgba(167, 155, 155, 0.4);
+    transform: scale(1.1);
+  }
+
+.banner_text {
+  font-family: 'Noto Sans', sans-serif;
+}
