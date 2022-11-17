@@ -3,17 +3,18 @@
 
 {% block content %}
 
-{% if request.resolver_match.url_name == 'create' %}<!--resolver_match = 어떤 url을 통해서 왔는지 검사하는 인스턴스, 따라서 create url로 왔는지 여부를 검사 -->
-<h1 class="h1">상품 등록</h1>
-{% else %}
-<h1 class="h1">상품 수정</h1>
-{% endif %}
-<div class="d-flex justify-content-center align-items-center m-auto mt-5">
+  {% if request.resolver_match.url_name == 'create' %}
+    <!--resolver_match = 어떤 url을 통해서 왔는지 검사하는 인스턴스, 따라서 create url로 왔는지 여부를 검사 -->
+    <p class="text-center fw-bold mb-3" style="color: white; font-family: 'Jost', sans-serif; font-size:70px;">Put Yours</p>
+  {% else %}
+    <p class="text-center fw-bold mb-3" style="color: white; font-family: 'Jost', sans-serif; font-size:70px;">Update Yours</p>
+  {% endif %}
+  <div class="d-flex justify-content-center align-items-center m-auto mt-5">
     <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% bootstrap_form product_form %}
-        {% bootstrap_button content="ok" button_type="submit" button_class="btn-danger" %}
+      {% csrf_token %}
+      {% bootstrap_form product_form %}
+      {% bootstrap_button button_type="submit" button_class="detail_btn w-100" content="OK"%}
     </form>
-</div>
+  </div>
 
 {% endblock %}

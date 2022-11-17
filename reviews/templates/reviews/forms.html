@@ -2,25 +2,25 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-{% if request.resolver_match.url_name == 'create' %}
-<div class="container-fluid py-5 rounded" style="background-color: #E9EEF5;">
-  <div class="col-md-6 m-auto text-center">
-      <h1 class="h1">리뷰 작성</h1>
+  {% if request.resolver_match.url_name == 'create' %}
+
+    <div class="col-md-6 m-auto text-center">
+      <p class="text-center fw-bold mb-3" style="color: white; font-family: 'Jost', sans-serif; font-size:70px;">Create review</p>
+    </div>
   </div>
-</div>
 {% else %}
-<div class="container-fluid py-5 rounded" style="background-color: #E9EEF5;">
+
   <div class="col-md-6 m-auto text-center">
-      <h1 class="h1">리뷰 수정</h1>
+    <p class="text-center fw-bold mb-3" style="color: white; font-family: 'Jost', sans-serif; font-size:70px;">Update review</p>
   </div>
 </div>
 {% endif %}
 <div class="d-flex justify-content-center align-items-center m-auto mt-5">
-  <form action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      {% bootstrap_button content="ok" button_type="submit" button_class="btn-danger" %}
-  </form>
+<form action="" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% bootstrap_button button_type="submit" button_class="detail_btn w-100" content="OK"%}
+</form>
 </div>
 
 {% endblock content %}
