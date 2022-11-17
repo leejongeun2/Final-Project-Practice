@@ -40,7 +40,6 @@ b {
 .detail_btn {
   border-color:#FA6EE3; 
   color: white;
-  font-family: 'Jost', sans-serif;
   border-radius: 50px;
 }
 
@@ -54,3 +53,15 @@ div {
   color: white;
 }
 
+.detail_btn2 {
+  background-color: #FA6EE3;
+  color: white;
+  border-radius: 50px;
+}
+
+.detail_btn2:hover {
+  border-color:#FA6EE3; 
+  color: white;
+  border-radius: 50px;
+
+}

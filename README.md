@@ -624,3 +624,67 @@ def show_jjim(request, user_pk):
 2. static 폴더 내 css 폴더 생성
 3. css 폴더 내 style.css 파일 생성 
 4. base.html에 `<link rel="stylesheet" href="/static/css/style.css">` 기재
+
+
+## 11.17
+
+### Grid
+`한줄에 두개씩 놓을 때`
+```html
+<div class="container text-center">
+  <div class="row row-cols-2">
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+    <div class="col">Column</div>
+  </div>
+</div>
+```
+`col는 이미지 박스 하나이며, for문이 이미지 박스 당 하나씩 나오는 것이기 때문에 col위에 써야함`
+```html
+<div class="row row-cols-3 g-4">
+    {% for product in jjim %}
+        <div class="col">
+            <div>
+               <a href="{% url 'products:detail' product.pk %}">
+                <img src="{{ product.image.url }}" alt="123" style="width: 400px; height: 300px; border-radius: 50px">
+               </a>
+                <div class="text-center">
+                    <a href="{% url 'products:delete_jjim' product.pk %}" class="btn detail_btn mt-3" style="width: 50%;">삭제</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+```
+
+### forms.py widget 사용법
+* 모델폼 바로 아래(Meta와 같은 라인) 필드명에 기재
+* label : 폼 내부 칸 이름을 변경 할 수 있음
+* attrs={'placeholder': 'Enter the content',} `칸 내부에 설명처럼 기재 되어있는 것`
+* 'rows': 5, 'cols': 50, `칸 사이즈 지정, row 5줄, col 한줄에 50자를 보여줌`
+* sty
+```python
+class ProductForm(forms.ModelForm):
+    content = forms.CharField(
+            label='내용',
+            widget=forms.Textarea(
+            attrs={
+                'placeholder': 'Enter the content',
+                'rows': 5,
+                'cols': 50,
+                }
+            ),
+            error_messages={
+                'required': 'Please enter your content'
+            }
+        )
+    class Meta:
+        model = Product
+        exclude = (
+            "user",
+            "jjim",
+            "review",
+            "like_users",
+        ) # 모델에서 정의했던 것 중에 제외할 필드
+```

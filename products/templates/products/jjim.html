@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>찜</h1>
+<h1 class="text-center my-5 btn_d" style="font-size:70px">I LOVE ...</h1>
 
-{% for product in jjim %}
-    <p>{{ product.name }}</p>
-    <a href="{% url 'products:delete_jjim' product.pk %}">삭제</a>
-{% endfor %}
+<div class="row row-cols-3 g-4">
+    {% for product in jjim %}
+        <div class="col">
+            <div>
+               <a href="{% url 'products:detail' product.pk %}">
+                <img src="{{ product.image.url }}" alt="123" style="width: 400px; height: 300px; border-radius: 50px">
+               </a>
+                <div class="text-center">
+                    <a href="{% url 'products:delete_jjim' product.pk %}" class="btn detail_btn mt-3" style="width: 50%;">삭제</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
 
 
 
