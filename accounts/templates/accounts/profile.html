@@ -13,13 +13,26 @@
                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="rounded-4" style="width: 600px; height: 400px;">
       {% endif %}
 </div>
-                  <form     form action="" method="POST" enctype="multipart/form-data">
+                  <form action="" method="POST" enctype="multipart/form-data">
                   {% csrf_token %}
                   {% bootstrap_form profile_update_form %}
                   <button type="submit" class="btn btn-outline-dark">수정하기</button>
                   </form>
 
       {% comment %} <a href="{% url 'accounts:profile_update' %}" class='btn btn-outline-success ms-5'>프로필 수정</a> {% endcomment %}
+
+<h1 class="text-center my-5 btn_d" style="color: white; font-family: 'Jost', sans-serif; font-size:70px;">I MADE <span style="color: #FA6EE3">{{ products.count }}</span> PRDODUCTS</h1>
+<div class="row row-cols-3 g-4">
+      {% for product in products %}
+        <div class="col">
+          <div>
+            <a href="{% url 'products:detail' product.pk %}">
+              <img src="{{ product.image.url }}" alt="123" style="width: 400px; height: 300px; border-radius: 50px">
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
 {% endblock content %}
 
 

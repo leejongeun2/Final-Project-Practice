@@ -720,3 +720,13 @@ class ProductForm(forms.ModelForm):
               {% endfor%}
             {% endif %}
     ```
+
+### 등록한 상품 개수 출력하는 방법 
+`{{ products.count }}` 
+1. accounts의 views.py에서 profile 함수에 `products = user_.product_set.all()`
+을 정의해줌 => `요청유저가 작성한 모든 상품들 출력하기` 
+2. context에 `"products": products,` 넣고 `return render(request, 'accounts/profile.html', context)` 넘겨줌
+3. 따라서, `products`사용하여 `products.count` 기재 시, `요청유저가 작성한 모든 상품들 개수` 출력
+
+### 특정 상품에 등록 된 리뷰 개수 출력하는 방법 
+`{{ product.review.count }}`
