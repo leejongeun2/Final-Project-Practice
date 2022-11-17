@@ -737,15 +737,26 @@ class ProductForm(forms.ModelForm):
 3. `request.user.profile_set.all` 은 요청 유저가 등록한 모든 프로필 출력하기 
 4. 단, 요청 유저가 등록한 프로필은 회원가입 당시 생성 된 프로필 한개이기 때문에 for문으로 돌려도, 한개 출력
 5. 회원가입 시 프로필 모델의 userid는 생성 되나, 프로필 사진 없어 이미지 수정 하지 않는 경우, 아이콘으로 나올 수 있도록 if문 출력
-   
-   ```html
-           {% if request.user.is_authenticated %}
-             {% for profile in request.user.profile_set.all %}
-               {% if profile.image %}
-                 <a class="" href="{% url 'accounts:profile' %}"><img src="{{ profile.image.url }}" alt="{{ profile.image }}" width="35" height="35" style="border-radius: 50%;"></a>
-               {% else %}
-                 <i class="bi bi-person-circle text-dark fs-2"></i>
-               {% endif %}
-             {% endfor%}
-           {% endif %}
-   ```
+
+    ```html
+            {% if request.user.is_authenticated %}
+              {% for profile in request.user.profile_set.all %}
+                {% if profile.image %}
+                  <a class="" href="{% url 'accounts:profile' %}"><img src="{{ profile.image.url }}" alt="{{ profile.image }}" width="35" height="35" style="border-radius: 50%;"></a>
+                {% else %}
+                  <i class="bi bi-person-circle text-dark fs-2"></i>
+                {% endif %}
+              {% endfor%}
+            {% endif %}
+    ```
+
+### 등록한 상품 개수 출력하는 방법 
+`{{ products.count }}` 
+1. accounts의 views.py에서 profile 함수에 `products = user_.product_set.all()`
+을 정의해줌 => `요청유저가 작성한 모든 상품들 출력하기` 
+2. context에 `"products": products,` 넣고 `return render(request, 'accounts/profile.html', context)` 넘겨줌
+3. 따라서, `products`사용하여 `products.count` 기재 시, `요청유저가 작성한 모든 상품들 개수` 출력
+
+### 특정 상품에 등록 된 리뷰 개수 출력하는 방법 
+`{{ product.review.count }}`
+
