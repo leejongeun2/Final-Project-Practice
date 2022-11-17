@@ -21,6 +21,10 @@
       </div>
     {% endfor %}
 
+    <div class="text-center p-5 m-5">
+      <a href="{% url 'reviews:create' product.pk %}" class="btn detail_btn" style="width: 100%;">review</a>
+    </div>
+
   </div>
 
 {% endblock content %}
