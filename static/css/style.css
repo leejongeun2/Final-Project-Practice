@@ -50,7 +50,20 @@ b {
 }
 
 
-div {
+p {
   color: white;
 }
 
+.review_btn {
+  border-color:#FA6EE3; 
+  color: white;
+  font-family: 'Jost', sans-serif;
+  border-radius: 50px;
+  background-color: #FA6EE3;
+}
+
+.review_btn:hover {
+  background-color: white;
+  color: black;
+  border-color: #FA6EE3;
+}
