@@ -78,7 +78,7 @@ def add_jjim(request, product_pk): # product_pk값을 불러와야 되는 이유
     else: # 누른적이 없는 경우, 
         product.jjim.add(request.user) # 상품이 요청유저에게 찜을 받는다. 
                                      
-    return redirect('products:detail', product_pk) # detail로 보낼 때는 상품에 대한 pk가 필요하니까 product_pk를 써줌
+    return redirect('products:show_jjim', request.user.pk) # detail로 보낼 때는 상품에 대한 pk가 필요하니까 product_pk를 써줌
 
 
 def show_jjim(request, user_pk):
