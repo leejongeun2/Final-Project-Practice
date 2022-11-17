@@ -659,20 +659,35 @@ def show_jjim(request, user_pk):
 ```
 
 ### forms.py widget 사용법
-* 모델폼 바로 아래(Meta와 같은 라인) 필드명에 기재
-* label : 폼 내부 칸 이름을 변경 할 수 있음
-* attrs={'placeholder': 'Enter the content',} `칸 내부에 설명처럼 기재 되어있는 것`
-* 'rows': 5, 'cols': 50, `칸 사이즈 지정, row 5줄, col 한줄에 50자를 보여줌`
-* sty
+
+```python
+class ReviewForm(forms.ModelForm):
+    star_list = [
+        ('⭐', '⭐'),
+        ('⭐⭐', '⭐⭐'),
+        ('⭐⭐⭐', '⭐⭐⭐'),
+        ('⭐⭐⭐⭐', '⭐⭐⭐⭐'),
+        ('⭐⭐⭐⭐⭐', '⭐⭐⭐⭐⭐'), 
+    ]
+    star = forms.ChoiceField(choices=star_list, 
+            widget=forms.RadioSelect( # radioselect 사용 시, choices에 있는 star_list를 라디오 버튼으로 선택 할 수 있도록 지정해줌 => Radioselect대신 select를 쓸 경우, 드롭박스로 별 선택 가능
+            attrs={
+                'placeholder': 'Enter the star',
+                'style': 'background-color: black; color: white; border-color: #FA6EE3;',
+                } # widet내 attrs내 style을 주면 필드 별 스타일 줄 수 있음
+            ),
+        )
+```
+        
 ```python
 class ProductForm(forms.ModelForm):
-    content = forms.CharField(
-            label='내용',
+    content = forms.CharField( # 모델폼 바로 아래(Meta와 같은 라인) 필드명에 기재
+            label='내용', # 폼 내부 칸 이름을 변경 할 수 있음
             widget=forms.Textarea(
             attrs={
-                'placeholder': 'Enter the content',
-                'rows': 5,
-                'cols': 50,
+                'placeholder': 'Enter the content', #`칸 내부에 설명처럼 기재 되어있는 것`
+                'rows': 5, 
+                'cols': 50, #`칸 사이즈 지정, row 5줄, col 한줄에 50자를 보여줌`
                 }
             ),
             error_messages={
@@ -688,3 +703,20 @@ class ProductForm(forms.ModelForm):
             "like_users",
         ) # 모델에서 정의했던 것 중에 제외할 필드
 ```
+### nav에 프로필 사진 출력하는 방법
+1. profile.html 경우, views.py의 `def profile`에서 `profile_ = user_.profile_set.all()[0]`을 context 내 `"profile": profile_`로 정의해줌
+2. 다만 nav의 base.html로 인자를 보내는 view함수가 없기 때문에 `{% for profile in request.user.profile_set.all %}`로 base.html에 넣어줌
+3. `request.user.profile_set.all` 은 요청 유저가 등록한 모든 프로필 출력하기 
+4. 단, 요청 유저가 등록한 프로필은 회원가입 당시 생성 된 프로필 한개이기 때문에 for문으로 돌려도, 한개 출력
+5. 회원가입 시 프로필 모델의 userid는 생성 되나, 프로필 사진 없어 이미지 수정 하지 않는 경우, 아이콘으로 나올 수 있도록 if문 출력
+    ```html
+            {% if request.user.is_authenticated %}
+              {% for profile in request.user.profile_set.all %}
+                {% if profile.image %}
+                  <a class="" href="{% url 'accounts:profile' %}"><img src="{{ profile.image.url }}" alt="{{ profile.image }}" width="35" height="35" style="border-radius: 50%;"></a>
+                {% else %}
+                  <i class="bi bi-person-circle text-dark fs-2"></i>
+                {% endif %}
+              {% endfor%}
+            {% endif %}
+    ```

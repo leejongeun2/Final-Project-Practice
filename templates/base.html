@@ -56,9 +56,13 @@
             {% endif %}
 
             {% if request.user.is_authenticated %}
-              <a class="me-2" href="{% url 'accounts:profile' %}">
-                <i class="bi bi-person-circle text-dark fs-2"></i>
-              </a>
+              {% for profile in request.user.profile_set.all %}
+                {% if profile.image %}
+                  <a class="" href="{% url 'accounts:profile' %}"><img src="{{ profile.image.url }}" alt="{{ profile.image }}" width="35" height="35" style="border-radius: 50%;"></a>
+                {% else %}
+                  <i class="bi bi-person-circle text-dark fs-2"></i>
+                {% endif %}
+              {% endfor%}
             {% endif %}
 
           </div>
