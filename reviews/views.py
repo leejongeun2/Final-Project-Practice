@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from products.models import Product
 from .forms import ReviewForm
 from .models import Review
+from django.contrib.auth.decorators import login_required
 # Create your views here.
-
+@login_required
 def index(request, product_pk):
     product = Product.objects.get(id=product_pk) # 특정상품 가져오고
     reviews = product.review.all() # 정참조이며, 특정 상품에 쓰인 리뷰 모두 확인
