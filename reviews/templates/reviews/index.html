@@ -8,18 +8,35 @@
   <div class="py-5">
     {% for review in reviews %}
 
-      <div class="bg-light rounded-5 my-3" style="box-shadow: 4px 4px 4px rgb(255, 0, 0, 0.8); width: 80%; margin: auto;">
+      <div class="bg-light rounded-5 my-3" style="box-shadow: 4px 4px 4px rgb(250, 110, 227, 0.8); width: 80%; margin: auto;">
         {% if product.image %}
+          <div class="row">
+            <div class="d-flex justify-content-between">
+              <div class="" style="margin:auto;">
+                <img class="rounded-5" src="{{ product.image.url }}" style="width:300px; " alt="123">
+                <div class="text-center">
+                  {{ review.user }}
+                  {{ review.star }}
+                </div>
+              </div>
+            {% endif %}
+            <div class="col-6 d-flex align-items-center p-3 white-space:normal;">
+              {{ review.content }}
+            </div>
+            <div class="col-3 d-flex align-items-center">
+              <a href="{% url 'reviews:update' review.pk %}" class="btn review_btn me-1">Update</a>
 
-          <img class="rounded-5" src="{{ product.image.url }}" style="width:300px; " alt="123">
+              <a href="{% url 'reviews:delete' review.pk %}" class="btn review_btn ms-1">Delete</a>
+            </div>
 
-        {% endif %}
-        {{ review.content }}
-        <a href="{% url 'reviews:update' review.pk %}">수정하기</a>
-
-        <a href="{% url 'reviews:delete' review.pk %}">삭제하기</a>
+          </div>
+        </div>
       </div>
     {% endfor %}
+
+    <div class="text-center p-5 m-5">
+      <a href="{% url 'reviews:create' product.pk %}" class="btn detail_btn" style="width: 100%;">review</a>
+    </div>
 
   </div>
 
