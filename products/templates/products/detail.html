@@ -1,19 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
-{{ product.user }}
-{{ product.name }}
-<a href="{% url 'products:update' product.pk %}" >상품수정</a>
-<a href="{% url 'products:delete' product.pk %}" >상품삭제</a>
-<a href="{% url 'products:add_jjim' product.pk %}" >장바구니</a>
-<a href="{% url 'reviews:index' product.pk %}">리뷰</a>
 
-{% comment %} <a class="like-heart" href="{% url 'products:like' product.pk %}" > {% endcomment %}
+{% if product.image %}
+<div class="text-center mt-5">
+    <img src="{{ product.image.url }}" alt="123" style="width: 100%; height: 600px; border-radius: 50px">
+</div>
+{% endif %}
+<div class="mx-4">
+    <div class="d-flex">
+        <p class="fs-5 fw-bold">{{ product.user }} > </p>
+        <div>
+            <a href="{% url 'products:update' product.pk %}" >상품수정</a>
+            <a href="{% url 'products:delete' product.pk %}" >상품삭제</a>
+        </div>
+    </div>
+    <p class="text-center">{{ product.name }}</p>
+    <a href="{% url 'products:add_jjim' product.pk %}" >찜</a>
+    <a href="{% url 'reviews:index' product.pk %}">리뷰</a>
     {% if request.user in product.like_users.all %}
-        <i id="like-btn" data-product-id="{{ product.pk }}" class="bi-hand-thumbs-up-fill"></i><!--따봉 채워져 있는 것 -->
+    <i id="like-btn" data-product-id="{{ product.pk }}" class="bi-hand-thumbs-up-fill"></i><!--따봉 채워져 있는 것 -->
     {% else %}
-         <i id="like-btn" data-product-id="{{ product.pk }}" class="bi-hand-thumbs-up"></i><!--따봉 비어져있는 것이 보여짐-->
+        <i id="like-btn" data-product-id="{{ product.pk }}" class="bi-hand-thumbs-up"></i><!--따봉 비어져있는 것이 보여짐-->
     {% endif %}
-{% comment %} </a> {% endcomment %}
+</div>
+
+
+
+
+
+
+<div class="text-center">
+    <a href="{% url 'reviews:index' product.pk %}" class="btn detail_btn" style="width: 100%;">review</a>
+</div>
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
