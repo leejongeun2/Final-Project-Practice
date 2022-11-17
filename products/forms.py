@@ -29,14 +29,14 @@ class ProductForm(forms.ModelForm):
                 }
             ),
         )
-    # image = forms.ImageField(
-    #         widget=forms.ImageField(
-    #         attrs={
-    #             'placeholder': 'Enter the image',
-    #             'style': 'background-color: black;',
-    #             }
-    #         ),
-    #     )
+    image = forms.FileField(
+            widget=forms.FileInput(
+            attrs={
+                'placeholder': 'Enter the image',
+                'style': 'background-color: black; color: white; border-color: #FA6EE3;',
+                }
+            ),
+        )
     class Meta:
         model = Product
         exclude = (

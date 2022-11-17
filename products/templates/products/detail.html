@@ -22,7 +22,7 @@
 </div>
 
 <div class="text-center d-flex">
-    <div class="me-2" style="width: 10%;">
+    <div class="me-2" style="width: 10%; color: #FA6EE3;">
         {% if request.user in product.like_users.all %}
             <i id="like-btn" data-product-id="{{ product.pk }}" class="bi-hand-thumbs-up-fill fs-3 fw-bolder"></i><!--따봉 채워져 있는 것 -->
         {% else %}
