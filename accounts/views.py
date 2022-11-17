@@ -58,7 +58,7 @@ def logout(request):
 def profile(request):
     user_ = get_user_model().objects.get(pk=request.user.pk) # 요청한 유저를 user_로 정의, 해당 함수 인자는 request밖에 없으니까 특정 user를 지칭할때 request.user를 사용(reuqest.user는 get_user_model().objects.get(pk=request.user.pk)와 같음)
     products = user_.product_set.all() # 요청유저가 작성한 모든 상품들 출력하기  
-    profile_ = user_.profile_set.all()[0] # 요청유저가 등록한 모든 프로필 출력하기(그 중 제일 먼저 등록한 회원가입 때 것)
+    profile_ = user_.profile_set.all()[0] # 요청유저가 등록한 모든 프로필 출력하기(그 중 제일 먼저 등록한 회원가입 때 등록 된 것)
     profile_create_form = ProfileForm
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile_)
@@ -85,20 +85,20 @@ def profile(request):
 #     return redirect('accounts:profile')
 
 
-def profile_update(request):
-    user_ = get_user_model().objects.get(pk=request.user.pk) # 요청한 유저 정보 불러오기
-    current_user = user_.profile_set.all()[0] # 요청한 유저가 만든 모든 프로필 중 1개를 current_user로 할당(맨 앞것)
-    if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES, instance=current_user)
-        if form.is_valid():
-            form.save()
-            return redirect("accounts:profile")
-    else:
-        form = ProfileForm(instance=current_user)
-    context = {
-        "profile_update_form":form,
-    }
-    return render(request, "accounts/profile_update.html", context)
+# def profile_update(request):
+#     user_ = get_user_model().objects.get(pk=request.user.pk) # 요청한 유저 정보 불러오기
+#     current_user = user_.profile_set.all()[0] # 요청한 유저가 만든 모든 프로필 중 1개를 current_user로 할당(맨 앞것)
+#     if request.method == "POST":
+#         form = ProfileForm(request.POST, request.FILES, instance=current_user)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("accounts:profile")
+#     else:
+#         form = ProfileForm(instance=current_user)
+#     context = {
+#         "profile_update_form":form,
+#     }
+#     return render(request, "accounts/profile_update.html", context)
         
 
 
