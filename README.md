@@ -760,3 +760,13 @@ class ProductForm(forms.ModelForm):
 ### 특정 상품에 등록 된 리뷰 개수 출력하는 방법 
 `{{ product.review.count }}`
 
+
+## 11.18
+⚠️ *border-color 속성 지정 전에 반드시 border-style 속성을 먼저 선언 필요. (∵ 테두리모양 존재해야 색상지정 가능)*
+    ```css
+    div {
+        border-style: solid;
+        border-color: coral;
+        }
+    ```
+* `border-width` => border 두께

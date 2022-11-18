@@ -81,4 +81,21 @@ p {
   border-color: #FA6EE3;
 }
 
+.nav_btn {
+  background-color: black;
+  color: white;
+  border-color: black;
+  border-radius: 50px;
+  font-family: 'Jost', sans-serif;
+}
+
+.nav_btn:hover {
+  background-color: white;
+  border-color: black; 
+  color: black;
+  border-radius: 50px;
+}
+
+
+
 

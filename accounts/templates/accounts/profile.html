@@ -3,21 +3,40 @@
 
 {% load django_bootstrap5 %}
 
-<h1 class="text-center my-5 btn_d" style="color: white; font-family: 'Jost', sans-serif; font-size:70px;">MY PAGE</h1>
-<div class="bg-light rounded-5 my-3" style="box-shadow: 4px 4px 4px rgb(250, 110, 227, 0.8); width: 80%; margin: auto;">
-      {% if profile.image %} <!--view context에서 넘겨준 profile은 여러개가 아닌 하나이기 때문에 프로필의 이미지가 있다면? 으로 정의할 수 있음 -->
-                  <div class="profile_box p-3" >
-                   <img src="{{ profile.image.url }}" alt="" class="rounded-4"style="width: 480px; height: 320px;">
-                  </div>
-      {% else %} <!--없다면? 아래 더미이미지-->
-                   <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="rounded-4" style="width: 600px; height: 400px;">
-      {% endif %}
+<h1 class="text-center mt-5 mb-3 btn_d" style="color: white; font-family: 'Jost', sans-serif; font-size:70px;">MY PAGE</h1>
+<div class="rounded-5 my-3 d-flex justify-content-between" style="width: 80%; scale: 80%; margin:auto; border-style:solid; border-color:#FA6EE3; border-width:5px;">
+        <div>
+          {% if profile.image %} <!--view context에서 넘겨준 profile은 여러개가 아닌 하나이기 때문에 프로필의 이미지가 있다면? 으로 정의할 수 있음 -->
+                      <div class="p-3" >
+                      <img src="{{ profile.image.url }}" alt="" class="rounded-4"style="width: 380px; height: 300px;">
+                      </div>
+          {% else %} <!--없다면? 아래 더미이미지-->
+                      <div class="p-3">
+                      <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="rounded-4" style="width: 380px; height: 300px;">
+                      </div>
+          {% endif %}
+          <div class="d-flex ms-4 pb-3">
+              <form action="" style="color:white;"method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form profile_update_form %}
+                <button type="submit" class="btn detail_btn">수정하기</button>
+              </form>
+          </div> 
+        </div>
+        <div class="fs-1 px-5 my-4 d-flex flex-column justify-content-center" style="font-family: 'Black Han Sans', sans-serif; color:white;" >
+          <div class="my-1">{{ user.username }}</div>
+          <div class="my-1">{{ user.email }}</div>
+          <div class="my-1">
+            {% if user.is_staff == 1 %}
+              seller
+            {% else %}
+              buyer
+            {% endif %}
+          </div>
+        </div>
+        <div class="px-2">
+        </div>
 </div>
-                  <form action="" method="POST" enctype="multipart/form-data">
-                  {% csrf_token %}
-                  {% bootstrap_form profile_update_form %}
-                  <button type="submit" class="btn btn-outline-dark">수정하기</button>
-                  </form>
 
       {% comment %} <a href="{% url 'accounts:profile_update' %}" class='btn btn-outline-success ms-5'>프로필 수정</a> {% endcomment %}
 
