@@ -189,8 +189,6 @@ doctor1.patient_set.all()
 
 >  지그재그를 근간으로 하여 디자인을 시도하였다.
 
-
-
 ### 참고! Markdown 에 이미지 삽입하기
 
 `이미지 링크로 변환하기`
@@ -204,8 +202,6 @@ doctor1.patient_set.all()
 `Markdown 에 이미지 올리기`
 
 - ! [ title ] ( 이미지 링크) 를 통해 간단하게 이미지를 넣을 수 있다.
-
-
 
 ### Figma
 
@@ -227,9 +223,15 @@ doctor1.patient_set.all()
 
 ![](https://i.esdrop.com/d/f/teJqrUQey5/YrY7dHjP9z.png)
 
-`Review`, `Profile`
+`Review`
 
-![](https://i.esdrop.com/d/f/teJqrUQey5/cIA2qNFIvs.png)
+![](https://i.esdrop.com/d/f/teJqrUQey5/fjt70OqQE5.png)
+
+`Profile`
+
+![p](https://i.esdrop.com/d/f/teJqrUQey5/eLP2Q7vJ8p.png)
+
+
 
  `Like`
 
@@ -590,8 +592,11 @@ def show_jjim(request, user_pk):
 ### 역참조란?
 
 * 1:N 관계에서는 1이 N을 참조하는 상황
+  
   * 외래 키를 가지지 않은 1이 외래 키를 가진 N을 참조
+
 * `article.comment_set.all()` : 1번 게시글에 작성된 모든 댓글 조회하기 (역참조)
+  
   * `1번 게시글에 작성된 모든 댓글 출력하기`
     
     ```python
@@ -626,10 +631,29 @@ def show_jjim(request, user_pk):
 4. base.html에 `<link rel="stylesheet" href="/static/css/style.css">` 기재
 
 
+
+## Product main page 구현
+
+![](https://i.esdrop.com/d/f/teJqrUQey5/2eCJwI6oIQ.gif)
+
+- `main page`에 입력한 상품의 이미지를 일렬로 3개씩, 체스판같이 출력하기를 원했다.
+
+- 하지만 `감성`을 위해 중간에 텍스트를 삽입하고 싶어짐,
+
+- 처음에는  `div` 가운데 텍스트를 미리 삽입해 놓고  for문을 돌려 비어있는 col에 자연스럽게 이미지가 삽입되는 방법을 구상했다.
+
+- 하지만 `div` 양 끝 공간을 비우면서 가운데 정렬에 실패하여 col 마다  for 문을 넣어 특정 `ID` 값을 출력하는 다소 무식..한 방식을 사용했다.
+
+- 3행 부터는 텍스트 없이 자연스럽게 출력
+  
+  
+
 ## 11.17
 
 ### Grid
+
 `한줄에 두개씩 놓을 때`
+
 ```html
 <div class="container text-center">
   <div class="row row-cols-2">
@@ -640,7 +664,9 @@ def show_jjim(request, user_pk):
   </div>
 </div>
 ```
+
 `col는 이미지 박스 하나이며, for문이 이미지 박스 당 하나씩 나오는 것이기 때문에 col위에 써야함`
+
 ```html
 <div class="row row-cols-3 g-4">
     {% for product in jjim %}
@@ -678,7 +704,7 @@ class ReviewForm(forms.ModelForm):
             ),
         )
 ```
-        
+
 ```python
 class ProductForm(forms.ModelForm):
     content = forms.CharField( # 모델폼 바로 아래(Meta와 같은 라인) 필드명에 기재
@@ -703,12 +729,15 @@ class ProductForm(forms.ModelForm):
             "like_users",
         ) # 모델에서 정의했던 것 중에 제외할 필드
 ```
+
 ### nav에 프로필 사진 출력하는 방법
+
 1. profile.html 경우, views.py의 `def profile`에서 `profile_ = user_.profile_set.all()[0]`을 context 내 `"profile": profile_`로 정의해줌
 2. 다만 nav의 base.html로 인자를 보내는 view함수가 없기 때문에 `{% for profile in request.user.profile_set.all %}`로 base.html에 넣어줌
 3. `request.user.profile_set.all` 은 요청 유저가 등록한 모든 프로필 출력하기 
 4. 단, 요청 유저가 등록한 프로필은 회원가입 당시 생성 된 프로필 한개이기 때문에 for문으로 돌려도, 한개 출력
 5. 회원가입 시 프로필 모델의 userid는 생성 되나, 프로필 사진 없어 이미지 수정 하지 않는 경우, 아이콘으로 나올 수 있도록 if문 출력
+
     ```html
             {% if request.user.is_authenticated %}
               {% for profile in request.user.profile_set.all %}
@@ -730,6 +759,7 @@ class ProductForm(forms.ModelForm):
 
 ### 특정 상품에 등록 된 리뷰 개수 출력하는 방법 
 `{{ product.review.count }}`
+
 
 ## 11.18
 ⚠️ *border-color 속성 지정 전에 반드시 border-style 속성을 먼저 선언 필요. (∵ 테두리모양 존재해야 색상지정 가능)*
