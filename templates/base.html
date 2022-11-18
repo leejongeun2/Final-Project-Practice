@@ -13,6 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin">
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Jost:wght@700&family=Noto+Sans+KR&family=Noto+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
   </head>
 
@@ -30,29 +31,19 @@
               <!--request.user는 뒤에나오는 것을 요청하는 사람-->
               {% if request.user.is_seller %}
                 <div class="boot_button d-flex align-items-center ">
-                  <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
-                    <a class="nav-link pt-0 text-light" href="{% url 'products:create' %}">상품 등록</a>
-                  </button>
+                  <a href="{% url 'products:create' %}" class="nav-link btn nav_btn me-1">PRODUCT CREATE</a>
                 {% else %}
-                  <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
-                    <a class="nav-link pt-0 text-light" href="{% url 'accounts:register_seller' request.user.id %}">판매자 등록</a>
-                  </button>
+                  <a href="{% url 'accounts:register_seller' request.user.id %}" class="nav-link btn nav_btn me-1" style="width: 85.46px;">SELLER</a>
                   <!--판매자가 되려는 식별할 수 있는 번호 id가 있어야 되기 때문-->
                 {% endif %}
-                <button type="button" class="btn btn-dark rounded-pill btn_c" style="height:35px;">
-                  <a class="nav-link pt-0 text-light " href="{% url 'accounts:logout' %}" tabindex="-1" aria-disabled="true">로그 아웃</a>
-                </button>
-              </div>
+                  <a href="{% url 'accounts:logout' %}" class="nav-link btn nav_btn">LOGOUT</a>
+                </div>
               <a class="mx-2" href="{% url 'products:show_jjim' request.user.id %}">
                 <i class="bi bi-bag-heart-fill text-dark fs-2"></i>
               </a>
             {% else %}
-              <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
-                <a class="nav-link pt-0 text-light" href="{% url 'accounts:login' %}">로그인</a>
-              </button>
-              <button type="button" class="btn btn-dark rounded-pill btn_c mx-2" style="height:35px;">
-                <a class="nav-link pt-0 text-light" href="{% url 'accounts:signup' %}">회원가입</a>
-              </button>
+              <a href="{% url 'accounts:login' %}" class="nav-link btn nav_btn me-1">LOGIN</a>
+              <a href="{% url 'accounts:signup' %}" class="nav-link btn nav_btn">SIGNUP</a>
             {% endif %}
 
             {% if request.user.is_authenticated %}
