@@ -43,8 +43,8 @@ SECRET_KEY = get_secret("SECRET_KEY")
 ALLOWED_HOSTS = [
     "127.0.0.1", 
     "localhost",
-    "Zugzogbeanstalk-env.eba-umesunmc.ap-northeast-2.elasticbeanstalk.com",
-    ]
+    "zugzog-env.eba-gsmmen2n.ap-northeast-2.elasticbeanstalk.com",
+]
 
 
 # Application definition
