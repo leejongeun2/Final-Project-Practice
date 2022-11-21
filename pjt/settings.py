@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os, json
 from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,9 +38,13 @@ def get_secret(setting):
 SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1", 
+    "localhost",
+    "Zugzogbeanstalk-env.eba-umesunmc.ap-northeast-2.elasticbeanstalk.com",
+    ]
 
 
 # Application definition
@@ -47,6 +53,7 @@ INSTALLED_APPS = [
     'accounts',
     'reviews',
     'products',
+    'storages',
     'imagekit',
     'django_bootstrap5',
     'django.contrib.admin',
@@ -91,12 +98,12 @@ WSGI_APPLICATION = 'pjt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -139,17 +146,78 @@ USE_TZ = True
 # static
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static') # 로고와 같이 고정적으로 삽입하는 정적 이미지, 오류 발생
 STATIC_URL = '/static/' # 웹 페이지에서 사용할 정적 파일의 최상위 URL 경로
-
+STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static'] # 이곳에 지정한 경로에 모든 파일을 모은다.
 
 
 
 # image
-MEDIA_ROOT = BASE_DIR / 'images' # 업로드가 끝난 파일을 배치할 최상위 경로를 지정하는 설정 항목
-MEDIA_URL = '/media/' # 웹 페이지에서 사용할 이미지 파일의 최상위 URL 경로
+# MEDIA_ROOT = BASE_DIR / 'images' # 업로드가 끝난 파일을 배치할 최상위 경로를 지정하는 설정 항목
+# MEDIA_URL = '/media/' # 웹 페이지에서 사용할 이미지 파일의 최상위 URL 경로
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+# AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+
+# AWS_REGION = "ap-northeast-2"
+# AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
+#     AWS_STORAGE_BUCKET_NAME,
+#     AWS_REGION,
+# )
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "zugzog", # 코드 블럭 아래 이미지 참고하여 입력
+#         "USER": "postgres",
+#         "PASSWORD": "whddms95", # 데이터베이스 생성 시 작성한 패스워드
+#         "HOST": "zugzog.crrwkbgnpdyb.ap-northeast-2.rds.amazonaws.com", # 코드 블럭 아래 이미지 참고하여 입력
+#         "PORT": "5432",
+#     }
+# }
+
+
+
+DEBUG = os.getenv("DEBUG") == "True"
+if DEBUG: 
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+else:   
+    # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    DEFAULT_FILE_STORAGE = "pjt.storages.MediaStorage"
+    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+
+    AWS_REGION = "ap-northeast-2"
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
+        AWS_STORAGE_BUCKET_NAME,
+        AWS_REGION,
+    )
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("DATABASE_NAME"), # .env 파일에 value 작성
+            "USER": "postgres",
+            "PASSWORD": os.getenv("DATABASE_PASSWORD"), # .env 파일에 value 작성
+            "HOST": os.getenv("DATABASE_HOST"), # .env 파일에 value 작성
+            "PORT": "5432",
+        }
+    }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' # 64비트보다 더 큰 정수값을 사용하고 싶을 때 모델에 각 정의해주는 것보다 여기서 전역에 적용되도록 기재함
 
