@@ -18,24 +18,24 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-secret_file = os.path.join(BASE_DIR, 'pjt/secrets.json')
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
+# secret_file = os.path.join(BASE_DIR, '.env')
+# with open(secret_file) as f:
+#     secrets = json.loads(f.read())
 
-# SECURITY WARNING: keep the secret key used in production secret!
-def get_secret(setting):
-    """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
+# # SECURITY WARNING: keep the secret key used in production secret!
+# def get_secret(setting):
+#     """비밀 변수를 가져오거나 명시적 예외를 반환한다."""
+#     try:
+#         return secrets[setting]
+#     except KeyError:
+#         error_msg = "Set the {} environment variable".format(setting)
+#         raise ImproperlyConfigured(error_msg)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+# # Quick-start development settings - unsuitable for production
+# # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_secret("SECRET_KEY")
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -202,6 +202,7 @@ else:
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+    SECRET_KEY = os.getenv("SECRET_KEY")
 
     AWS_REGION = "ap-northeast-2"
     AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (
