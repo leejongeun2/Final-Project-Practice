@@ -88,7 +88,7 @@
             <div class="h-100 border border-0 hoverbox rounded-4">
               <a href=" {% url 'products:detail' product.id %}">
                 {% if product.image %}
-                  {% if product.pk == 1 %}
+                  {% if product.pk == 7 %}
                     <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
                   {% endif %}
                 {% else %}
@@ -108,7 +108,7 @@
             <div class="h-100 border border-0 hoverbox rounded-4">
               <a href=" {% url 'products:detail' product.id %}">
                 {% if product.image %}
-                  {% if product.pk == 2 %}
+                  {% if product.pk == 8 %}
                     <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
                   {% endif %}
                 {% else %}
@@ -131,7 +131,7 @@
             <div class="h-100 border border-0 hoverbox rounded-4">
               <a href=" {% url 'products:detail' product.id %}">
                 {% if product.image %}
-                  {% if product.pk == 3 %}
+                  {% if product.pk == 9 %}
                     <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
                   {% endif %}
                 {% else %}
@@ -152,7 +152,7 @@
           <div class="h-100 border border-0 hoverbox rounded-4">
             <a href=" {% url 'products:detail' product.id %}">
               {% if product.image %}
-                {% if product.pk >= 4 %}
+                {% if product.pk >= 10 %}
                   <img src="{{ product.image.url }}" class="card-img-top rounded-4" alt="...">
                 {% endif %}
               {% else %}
