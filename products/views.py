@@ -1,17 +1,58 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import Product, Item
 from .forms import ProductForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
+import csv
+
+# def index(request):
+#     products = Product.objects.all() # Product 모델의 객체를 다 가져옴 
+
+#     product_item = Product.objects.order_by("pk")
+#     paginator = Paginator(product_item, 9)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+
+
+#     context = {
+#         'products':products,
+#         "page_obj": page_obj,
+#     }
+#     return render(request, "products/index.html", context) # 템플릿 네임 적어주고, 이쪽으로 context 값을 넘겨줌
+    
+
 
 def index(request):
-    products = Product.objects.all() # Product 모델의 객체를 다 가져옴 
+    item = Item.objects.all()
+
+    if len(item) == 0:
+        items_csv = open("products/shopping3.csv", encoding="UTF-8")
+        items_reader = csv.reader(items_csv)
+        bulk_list = []
+        for i in items_reader:
+            bulk_list.append(
+                Item(
+                    title=i[0],
+                    price=i[1],
+                    image_url=i[2],
+                )
+            )
+        Item.objects.bulk_create(bulk_list)
+    # pagination
+    ordered_item = Item.objects.order_by("pk")
+    paginator = Paginator(ordered_item, 9)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     context = {
-        'products':products,
+        "item": item,
+        "page_obj": page_obj,
     }
-    return render(request, "products/index.html", context) # 템플릿 네임 적어주고, 이쪽으로 context 값을 넘겨줌
-    
+    return render(request, "products/index.html", context)
+
+
+
 
 def create(request):
     if request.method == "POST":
@@ -34,7 +75,7 @@ def create(request):
 
 
 def detail(request, product_pk): # 요청 받은 것에 product_pk가 포함됨
-    product = Product.objects.get(id=product_pk) # id가 요청받은 product_pk가 같은 것을 가져옴
+    product = Item.objects.get(id=product_pk) # id가 요청받은 product_pk가 같은 것을 가져옴
 
     context = {
         "product":product 

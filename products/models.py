@@ -18,3 +18,8 @@ class Product(models.Model):
     # 특정 상품에 작성된 리뷰는 여러개 있을 수 있고, 특정 리뷰가 쓰여진 상품들은 여러개 있을 수 있다.
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'like_products')
     # 한 상품은 여러 사람들한테 좋아요를 받을 수 있고, 한사람은 여러 상품에 좋아요를 할 수 있다.
+
+class Item(models.Model):
+    title = models.CharField(max_length=50)
+    price = models.TextField()
+    image_url = models.TextField()

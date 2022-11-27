@@ -81,7 +81,7 @@
     <!-- End Banner Hero -->
   </div>
   <div class="container text-center">
-    <div class="row align-items-start">
+    {% comment %} <div class="row align-items-start">
       <div class="col ">
         {% for product in products %}
           <div class="col px-3 py-1 ">
@@ -162,6 +162,32 @@
           </div>
         </div>
       {% endfor %}
+    </div> {% endcomment %}
+
+
+
+
+    <div class="row row-cols-1 row-cols-md-3 g-6">
+      {% for i in page_obj %}
+        <div class="col px-3 py-3">
+          <div class="h-100 border border-0 hoverbox rounded-4">
+            <a href=" {% url 'products:detail' i.id %}">
+              {% if i.image_url %}
+                <img src="{{ i.image_url }}" class="card-img-top rounded-4" alt="...">
+              {% else %}
+                <img src="https://dummyimage.com/640x480/000/454545" class="card-img-top" alt="...">
+              {% endif %}
+            </a>
+          </div>
+        </div>
+      {% endfor %}
     </div>
+
+  <ul id="pagination" class="d-flex my-5 d-flex justify-content-center p-5">
+      <li class="mx-2 rounded"><a class="border border-0 text-muted" href="?page=1">1</a></li>
+      <li class="mx-2 rounded"><a class="border border-0 text-muted" href="?page=2">2</a></li>
+      <li class="mx-2 rounded"><a class="border border-0 text-muted" href="?page=3">3</a></li>
+      <li class="mx-2 rounded"><a class="border border-0 text-muted" href="?page=4">4</a></li>
+  </ul>
 
   {% endblock content_2 %}
